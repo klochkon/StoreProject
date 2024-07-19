@@ -1,14 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/Product
+    url: jdbc:postgresql://localhost:5432/Storage
     password: klochko_08
-    username: postgres
+    username: Storage
     driver-class-name: org.postgresql.Driver
+
+
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-
-
-

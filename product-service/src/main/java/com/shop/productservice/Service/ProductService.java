@@ -19,6 +19,11 @@ public class ProductService {
 
     public Product UpdateProduct(Product product) {return repository.save(product);}
 
-    public Product deleteProductById(Long id) {return repository.DeleteProductById(id);}
+    public Product deleteProductById(Long id) {return repository.deleteProductById(id);}
 
+    public Product findProductById(Long id) {return repository.findProductById(id);}
+
+    public List<Product> findProductByCategorie(String categorie) {
+        return repository.findProductByCategorie(categorie);
+    }
 }

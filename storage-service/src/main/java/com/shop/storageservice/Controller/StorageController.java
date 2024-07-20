@@ -3,10 +3,7 @@ package com.shop.storageservice.Controller;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Service.StorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/storage")
@@ -14,11 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class StorageController {
     private final StorageService service;
     @GetMapping("isInStorage")
-    public Boolean IsInStorage(@RequestBody Storage product, Integer requiredquentity){return service.IsInStorage(product,requiredquentity);}
+    public Boolean isInStorage(@RequestBody Storage product, @RequestParam Integer requiredquentity){
+        return service.isInStorage(product,requiredquentity);
+    }
 
+    @PostMapping("add")
+    public void addProductById(@RequestParam Integer quantityAdded, Long addedId){
+        service.addProductById(addedId, quantityAdded);
+    }
 
-
-
+    @DeleteMapping("delete")
+    public void deleteProductById(@RequestParam Integer quantityDeleted, Long deletedId){
+        service.deleteProductById(deletedId,quantityDeleted);
+    }
 
 
 }

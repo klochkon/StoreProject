@@ -26,6 +26,7 @@ public class Product {
     private Float cost;
     private String name;
     private String producer;
+    private String categorie;
 
 
 

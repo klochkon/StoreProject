@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface StorageRepository extends JpaRepository<Storage,Long> {
-    Boolean isInStorage(Long id);
+public interface StorageRepository extends JpaRepository<Storage, Long> {
 
     @Modifying
     @Transactional
@@ -24,5 +23,21 @@ public interface StorageRepository extends JpaRepository<Storage,Long> {
             "WHERE id = deletedId",
             nativeQuery = true)
     void deleteproductById(Long deletedId, Integer quantityDeleted);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Storage" +
+            "SET quantity = quantity + 1" +
+            "WHERE id = addedId",
+            nativeQuery = true)
+    void addProductByIdByOne(Long addedId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Storage" +
+            "SET quantity = quantity - 1" +
+            "WHERE id = addedId",
+            nativeQuery = true)
+    void deleteProductByIdByOne(Long deletedId);
 
 }

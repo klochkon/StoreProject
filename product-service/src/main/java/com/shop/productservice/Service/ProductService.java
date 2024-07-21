@@ -13,17 +13,17 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public List<Product> GetAllProduct() { return repository.findAll();}
+    public List<Product> getAllProduct() { return repository.findAll();}
 
-    public Product CreateProduct(Product product) {return repository.save(product);}
+    public Product createProduct(Product product) {return repository.save(product);}
 
     public Product UpdateProduct(Product product) {return repository.save(product);}
 
-    public Product deleteProductById(Long id) {return repository.deleteProductById(id);}
+    public void deleteById(Long id) {repository.deleteById(id);}
 
-    public Product findProductById(Long id) {return repository.findProductById(id);}
+    public Product findById(Long id) {return repository.findById(id).orElse(null);}
 
-    public List<Product> findProductByCategorie(String categorie) {
-        return repository.findProductByCategorie(categorie);
+    public List<Product> findByCategory(String category) {
+        return repository.findByCategory(category);
     }
 }

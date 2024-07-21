@@ -12,16 +12,24 @@ public class PurchaseController {
     private final PurchaseService service;
 
     @PostMapping("add-to-cart")
-    public void addToCart(@RequestParam String name, Integer quantity) {service.addToCart(name, quantity);}
+    public void addToCart(@RequestParam Long id, Integer quantity) {
+        service.addToCart(id, quantity);
+    }
 
     @DeleteMapping("remove-{}")
-    public void removeFromCart(@PathVariable String name) {service.removeFromCart(name);}
+    public void removeFromCart(@PathVariable Long id) {
+        service.removeFromCart(id);
+    }
 
     @PutMapping("set-quantity")
-    public void setQuantity(@RequestParam String name, Integer quantity) {service.setQuantity(name, quantity);}
+    public void setQuantity(@RequestParam Long id, Integer quantity) {
+        service.setQuantity(id, quantity);
+    }
 
     @DeleteMapping("clean-cart")
-    public void cleanCart() {service.cleanCart();}
+    public void cleanCart() {
+        service.cleanCart();
+    }
 
 
 }

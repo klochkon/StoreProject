@@ -7,15 +7,23 @@ import java.util.HashMap;
 @Service
 public class PurchaseService {
 
-    HashMap<String, Integer> cart = new HashMap<>();
+    HashMap<Long, Integer> cart = new HashMap<>();
 
-    public void addToCart(String name, Integer quantity) {cart.put(name, quantity);}
+    public void addToCart(Long id, Integer quantity) {
+        cart.put(id, quantity);
+    }
 
-    public void removeFromCart(String name) {cart.remove(name);}
+    public void removeFromCart(Long id) {
+        cart.remove(id);
+    }
 
-    public void setQuantity(String name, Integer quantity) {cart.put(name, quantity);}
+    public void setQuantity(Long id, Integer quantity) {
+        cart.put(id, quantity);
+    }
 
-    public void cleanCart() {cart.clear();}
+    public void cleanCart() {
+        cart.clear();
+    }
 
 //Purchase todo -------------------------------------------------------------
 

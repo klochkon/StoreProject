@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class StorageController {
     private final StorageService service;
     @GetMapping("isInStorage")
-    public Boolean isInStorage(@RequestBody Storage product, @RequestParam Integer requiredquentity){
-        return service.isInStorage(product,requiredquentity);
+    public Boolean isInStorage(@RequestBody Long id, Integer requiredquantity){
+        return service.isInStorage(id, requiredquantity);
     }
 
     @PostMapping("add")

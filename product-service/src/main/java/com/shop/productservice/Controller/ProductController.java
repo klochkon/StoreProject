@@ -16,23 +16,23 @@ public class ProductController {
     ProductService service;
 
     @GetMapping("get-all")
-    public List<Product> getAllProduct() {return service.GetAllProduct();}
+    public List<Product> getAllProduct() {return service.getAllProduct();}
 
     @PostMapping("create")
-    public Product createProduct(@RequestBody Product product) {return service.CreateProduct(product);}
+    public Product createProduct(@RequestBody Product product) {return service.createProduct(product);}
 
     @PutMapping("update")
     public Product updateProduct(@RequestBody Product product) {return service.UpdateProduct(product);}
 
     @DeleteMapping("delete-by-{id}")
-    public Product deleteProductById(@PathVariable Long id) {return service.deleteProductById(id);}
+    public void deleteProductById(@PathVariable Long id) {service.deleteById(id);}
 
     @GetMapping("get-with-id-{id}")
-    public Product getProductById(@PathVariable Long id) {return service.findProductById(id);}
+    public Product getProductById(@PathVariable Long id) {return service.findById(id);}
 
-    @GetMapping("get-all-{categorie}")
-    public List<Product> findProductByCategorie(@PathVariable String categorie) {
-        return service.findProductByCategorie(categorie);
+    @GetMapping("get-all-{category}")
+    public List<Product> findProductByCategory(@PathVariable String category) {
+        return service.findByCategory(category);
     }
 
 }

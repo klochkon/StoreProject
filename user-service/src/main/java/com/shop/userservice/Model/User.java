@@ -35,5 +35,5 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private FavouriteProduct favouriteProduct;
+    private List<FavouriteProduct> favouriteProduct;
 }

@@ -39,11 +39,10 @@ public class UserService {
         return favouriteCategoryRepository.findAllStringFavouriteCategory();
     }
 
-    public List<String> findAllStringFavouriteProduct() {
-        return favouriteProductRepository.findAllStringFavouriteProduct();
-    }
+//    public List<String> findAllStringFavouriteProduct() {
+//        return favouriteProductRepository.findAllStringFavouriteProduct();}
 
-    public FavouriteCategory saveFavouriteCategory(FavouriteCategorie favouriteCategorie) {}
+//    public FavouriteCategory saveFavouriteCategory(FavouriteCategorie favouriteCategorie) {}
 
 
 

@@ -4,10 +4,14 @@ spring:
     password: klochko_08
     username: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+server:
+  port: 8083
 
 
 

@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface FavouriteCategoryRepository extends JpaRepository<FavouriteCategorie, Long> {
 
-    @Query(value = "SELECT favouriteCategory FROM favouriteCategory")
-    List<String> findAllStringFavouriteCategories();
+    @Query(value = "SELECT favouriteCategory FROM FavouriteCategorie")
+    List<String> findAllStringFavouriteCategory();
 
 
 }

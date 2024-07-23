@@ -1,5 +1,6 @@
 package com.shop.userservice.Service;
 
+import com.shop.userservice.Model.FavouriteCategorie;
 import com.shop.userservice.Model.User;
 import com.shop.userservice.Repository.FavouriteCategoryRepository;
 import com.shop.userservice.Repository.FavouriteProductRepository;
@@ -19,27 +20,30 @@ public class UserService {
     private final FavouriteCategoryRepository favouriteCategoryRepository;
     private final FavouriteProductRepository favouriteProductRepository;
 
-//    @CachePut(value = "user", key = "#id") if i`ll need get queries
+    //    @CachePut(value = "user", key = "#id") if i`ll need get queries
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
-//    @CachePut(value = "user", key = "#id") if i`ll need get queries
+    //    @CachePut(value = "user", key = "#id") if i`ll need get queries
     public User updateUser(User user) {
         return userRepository.save(user);
     }
 
-//    @CacheEvict(value = "user", key = "#id") if i`ll need get queries
+    //    @CacheEvict(value = "user", key = "#id") if i`ll need get queries
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
-    public List<String> findAllFavouriteCategorie() {return favouriteCategoryRepository.findAll();}
+    public List<String> findAllFavouriteCategory() {
+        return favouriteCategoryRepository.findAllStringFavouriteCategory();
+    }
 
+    public List<String> findAllStringFavouriteProduct() {
+        return favouriteProductRepository.findAllStringFavouriteProduct();
+    }
 
-
-
-
+    public FavouriteCategory saveFavouriteCategory(FavouriteCategorie favouriteCategorie) {}
 
 
 

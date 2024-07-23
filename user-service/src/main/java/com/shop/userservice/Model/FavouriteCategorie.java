@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@Table(name = "FavouriteCategorie")
+@Table(name = "FavouriteCategory")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

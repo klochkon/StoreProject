@@ -28,12 +28,12 @@ public class StorageService {
         return product.getQuantity() >= requiredquentity;
 
     }
-    @CachePut(value = "storage", key = "#id")
+    @CachePut(value = "storage", key = "#addedId")
     public void addProductById(Long addedId, Integer quantityAdded) {
         repository.addProductById(addedId, quantityAdded);
     }
 
-    @CacheEvict(value = "storage", key = "#id")
+    @CacheEvict(value = "storage", key = "#deletedId")
     public void deleteProductById(Long deletedId, Integer quantityDeleted) {
         repository.deleteproductById(deletedId, quantityDeleted);
     }
@@ -49,12 +49,12 @@ public class StorageService {
         return true;
     }
 
-    @CachePut(value = "storage", key = "#id")
+    @CachePut(value = "storage", key = "#addedId")
     public void addProductByIdByOne(Long addedId) {
         repository.addProductByIdByOne(addedId);
     }
 
-    @CacheEvict(value = "storage", key = "#id")
+    @CacheEvict(value = "storage", key = "#deletedId")
     public void deleteProductByIdByOne(Long deletedId) {
         repository.deleteProductByIdByOne(deletedId);
     }

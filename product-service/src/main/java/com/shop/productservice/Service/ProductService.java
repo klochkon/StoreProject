@@ -21,13 +21,13 @@ public class ProductService {
         return repository.findAll();
     }
 
-    @CachePut(value = {"allProduct", "product"}, key = "#id")
+    @CachePut(value = {"allProduct", "product"}, key = "#product.id")
     public Product createProduct(Product product) {
         return repository.save(product);
     }
 
 
-    @CachePut(value = {"product", "allProduct"}, key = "#id")
+    @CachePut(value = {"product", "allProduct"}, key = "#product.id")
     public Product UpdateProduct(Product product) {
         return repository.save(product);
     }
@@ -43,7 +43,7 @@ public class ProductService {
     }
 
     @Cacheable(value = "allProduct", key = "#category")
-    public List<Product> findByCategory(String category) {
+    public List<Product> findAllByCategory(String category) {
         return repository.findByCategory(category);
     }
 }

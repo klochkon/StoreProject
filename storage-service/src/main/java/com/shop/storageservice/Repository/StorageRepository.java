@@ -4,6 +4,7 @@ import com.shop.storageservice.Model.Storage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface StorageRepository extends JpaRepository<Storage, Long> {
@@ -26,18 +27,18 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Storage" +
-            "SET quantity = quantity + 1" +
-            "WHERE id = addedId",
+    @Query(value = "UPDATE Storage " +
+            "SET quantity = quantity + 1 " +
+            "WHERE id = :addedId",
             nativeQuery = true)
-    void addProductByIdByOne(Long addedId);
+    void addProductByIdByOne(@Param("addedId")Long addedId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Storage" +
-            "SET quantity = quantity - 1" +
-            "WHERE id = addedId",
+    @Query(value = "UPDATE Storage " +
+            "SET quantity = quantity - 1 " +
+            "WHERE id = :addedId",
             nativeQuery = true)
-    void deleteProductByIdByOne(Long deletedId);
+    void deleteProductByIdByOne(@Param("deletedId")Long deletedId);
 
 }

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class FavouriteCategory {
 
     @Id
+    @GeneratedValue
     private Long id;
     private String favouriteCategory;
     @ManyToOne

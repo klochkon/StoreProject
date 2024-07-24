@@ -2,10 +2,8 @@ package com.shop.customerservice.Model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -22,8 +20,12 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String phoneNumber;
+    @Column(nullable = false)
+    private String nickname;
     private String name;
     private String surname;
     private String sex;

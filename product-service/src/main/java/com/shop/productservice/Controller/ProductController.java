@@ -32,7 +32,7 @@ public class ProductController {
 
     @GetMapping("get-all-{category}")
     public List<Product> findProductByCategory(@PathVariable String category) {
-        return service.findByCategory(category);
+        return service.findAllByCategory(category);
     }
 
 }

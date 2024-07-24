@@ -1,10 +1,7 @@
 package com.shop.productservice.Model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -14,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Entity
@@ -38,6 +36,9 @@ public class Product {
     @DecimalMax(value = "5.0", inclusive = true, message = "The maximum value is 5.0")
     @Digits(integer = 1, fraction = 1)
     private BigDecimal feedBack;
+
+    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Comment> comment;
 
 
 }

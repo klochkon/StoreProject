@@ -1,10 +1,11 @@
 package com.shop.customerservice.Service;
 
 import com.shop.customerservice.Model.Customer;
-import com.shop.customerservice.Repository.FavouriteCategoryRepository;
-import com.shop.customerservice.Repository.FavouriteProductRepository;
 import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,30 +15,31 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final FavouriteCategoryRepository favouriteCategoryRepository;
-    private final FavouriteProductRepository favouriteProductRepository;
 
-    //    @CachePut(value = "customer", key = "#id") if i`ll need get queries
-    public Customer saveUser(Customer customer) {
+    @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    //    @CachePut(value = "customer", key = "#id") if i`ll need get queries
-    public Customer updateUser(Customer customer) {
+    @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
+    public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    //    @CacheEvict(value = "customer", key = "#id") if i`ll need get queries
-    public void deleteUserById(Long id) {customerRepository.deleteById(id);}
-
-    public List<String> findAllFavouriteCategory() {
-        return favouriteCategoryRepository.findAllStringFavouriteCategory();
+    @CacheEvict(value = {"customer", "allCustomer"}, key = "#id")
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
     }
 
-//    public List<String> findAllStringFavouriteProduct() {
-//        return favouriteProductRepository.findAllStringFavouriteProduct();}
+    @Cacheable(value = "customer", key = "#id")
+    public Customer findCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
 
-//    public FavouriteCategory saveFavouriteCategory(FavouriteCategorie favouriteCategorie) {}
+    @Cacheable(value = "allCustomer")
+    public List<Customer> findAllCustomer() {
+        return customerRepository.findAll();
+    }
 
 
 }

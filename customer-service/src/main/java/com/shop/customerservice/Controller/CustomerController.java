@@ -5,6 +5,8 @@ import com.shop.customerservice.Service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -14,18 +16,29 @@ public class CustomerController {
 
     @PostMapping("save")
     public Customer saveUser(@RequestBody Customer customer) {
-        return service.saveUser(customer);
+        return service.saveCustomer(customer);
     }
 
     @PutMapping("update")
     public Customer updateUser(@RequestBody Customer customer) {
-        return service.updateUser(customer);
+        return service.updateCustomer(customer);
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("delete-by-id-{id}")
     public void deleteUser(@PathVariable Long id) {
-        service.deleteUserById(id);
+        service.deleteCustomerById(id);
     }
+
+    @GetMapping("find-by-id-{id}")
+    public Customer findCustomerById(@PathVariable Long id) {
+        return service.findCustomerById(id);
+    }
+
+    @GetMapping("find-all")
+    public List<Customer> findAllCustomer() {
+        return service.findAllCustomer();
+    }
+
 
 
 }

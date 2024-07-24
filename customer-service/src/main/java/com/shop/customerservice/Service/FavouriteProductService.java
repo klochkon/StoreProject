@@ -1,6 +1,7 @@
 package com.shop.customerservice.Service;
 
 
+import com.shop.customerservice.Model.FavouriteProduct;
 import com.shop.customerservice.Repository.FavouriteProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,11 @@ public class FavouriteProductService {
         return repository.findFavouriteProductByCustomerId(customerId);
     }
 
-    public void addFavouriteProductByCustomerId(Long customerId, String favouriteProduct) {
-        repository.addFavouriteProductByCustomerId(customerId, favouriteProduct);
+    public void addFavouriteProduct(FavouriteProduct favouriteProduct) {
+        repository.save(favouriteProduct);
     }
 
-    public void deleteFavouriteProductByCustomerId(Long customerId, String favouriteProduct){
-        repository.deleteFavouriteProductByCustomerId(customerId, favouriteProduct);
+    public void deleteFavouriteProductById(Long id){
+        repository.deleteById(id);
     }
 }

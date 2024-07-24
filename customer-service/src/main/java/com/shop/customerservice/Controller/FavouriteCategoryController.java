@@ -18,14 +18,14 @@ public class FavouriteCategoryController {
         return service.findAllFavouriteCategoryByCustomerId(customerId);
     }
 
-    @PostMapping("add-{favouriteCategory}-by-customer-{customerId}")
-    public void addFavouriteCategoryByCustomerId(@PathVariable Long customerId, @PathVariable String favouriteCategory) {
-        service.addFavouriteCategoryByCustomerId(customerId, favouriteCategory);
+    @PostMapping("add-{customerId}")
+    public void addFavouriteCategoryByCustomerId(@PathVariable Long id) {
+        service.addFavouriteCategory(id);
     }
 
-    @DeleteMapping("delete-{favouriteCategory}-by-customer-{customerId}")
-    public void deleteFavouriteCategoryByCustomerId(@PathVariable Long customerId, @PathVariable String favouriteCategory){
-        service.deleteFavouriteCategoryByCustomerId(customerId, favouriteCategory);
+    @DeleteMapping("delete-{customerId}")
+    public void deleteFavouriteCategoryById(@PathVariable Long id){
+        service.deleteFavouriteCategoryById(id);
     }
 
 

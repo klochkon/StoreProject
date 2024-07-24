@@ -13,12 +13,5 @@ public interface FavouriteProductRepository extends JpaRepository<FavouriteProdu
             "WHERE customer_id = :customerId", nativeQuery = true)
     List<String> findFavouriteProductByCustomerId(@Param("customerId") Long customerId);
 
-    @Query(value = "INSERT INTO favourite_product (favourite_product, customer_id) " +
-            "VALUES (:favouriteProduct, :customerId)", nativeQuery = true)
-    void addFavouriteProductByCustomerId(@Param("customerId") Long customerId, @Param("favouriteProduct") String favouriteProduct);
-
-    @Query(value = "DELETE FROM FavouriteProduct " +
-            "WHERE customer_id = :customerId AND favourite_product = :favouriteProduct", nativeQuery = true)
-    void deleteFavouriteProductByCustomerId(@Param("customerId")Long customerId, @Param("favouriteProduct") String favouriteProduct);
 }
 

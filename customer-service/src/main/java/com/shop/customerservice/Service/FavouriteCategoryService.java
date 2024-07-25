@@ -31,9 +31,4 @@ public class FavouriteCategoryService {
     public void deleteFavouriteCategoryById(Long id) {
         repository.deleteById(id);
     }
-
-    public void deleteAllFavouriteCategoryByCustomerId(Long customerId) {
-        repository.deleteAllByCustomerId(customerId);
-    }
-
 }

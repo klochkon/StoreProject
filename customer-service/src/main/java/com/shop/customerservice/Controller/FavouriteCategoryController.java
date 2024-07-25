@@ -1,5 +1,6 @@
 package com.shop.customerservice.Controller;
 
+import com.shop.customerservice.Model.FavouriteCategory;
 import com.shop.customerservice.Service.FavouriteCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class FavouriteCategoryController {
         return service.findAllFavouriteCategoryByCustomerId(customerId);
     }
 
-    @PostMapping("add-{customerId}")
-    public void addFavouriteCategoryByCustomerId(@PathVariable Long id) {
-        service.addFavouriteCategory(id);
+    @PostMapping("add-{favouriteCategory}")
+    public void addFavouriteCategory(@RequestBody FavouriteCategory favouriteCategory) {
+        service.addFavouriteCategory(favouriteCategory);
     }
 
-    @DeleteMapping("delete-{customerId}")
+    @DeleteMapping("delete-{id}")
     public void deleteFavouriteCategoryById(@PathVariable Long id){
         service.deleteFavouriteCategoryById(id);
     }

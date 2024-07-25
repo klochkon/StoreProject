@@ -1,5 +1,6 @@
 package com.shop.customerservice.Controller;
 
+import com.shop.customerservice.Model.FavouriteProduct;
 import com.shop.customerservice.Service.FavouriteCategoryService;
 import com.shop.customerservice.Service.FavouriteProductService;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,13 @@ public class FavouriteProductController {
         return service.findAllFavouriteProductByCustomerId(customerId);
     }
 
-    @PostMapping("add-{favouriteProduct}-by-customer-{customerId}")
-    public void addFavouriteProductByCustomerId(@PathVariable Long customerId, @PathVariable String favouriteProduct) {
-        service.addFavouriteProductByCustomerId(customerId, favouriteProduct);
+    @PostMapping("add")
+    public void addFavouriteProduct(@RequestBody FavouriteProduct favouriteProduct) {
+        service.addFavouriteProduct(favouriteProduct);
     }
 
-    @DeleteMapping("delete-{favouriteProduct}-by-customer-{customerId}")
-    public void deleteFavouriteProductByCustomerId(@PathVariable Long customerId, @PathVariable String favouriteProduct){
-        service.deleteFavouriteProductByCustomerId(customerId, favouriteProduct);
+    @DeleteMapping("delete-by-id-{id}")
+    public void deleteFavouriteProductById(@PathVariable Long id){
+        service.deleteFavouriteProductById(id);
     }
 }

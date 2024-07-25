@@ -22,10 +22,9 @@ public class StorageService {
         return repository.findById(id).orElse(null);
     }
 
-    @Cacheable(value = "storage", key = "#id")
-    public Boolean isInStorage(Long id, Integer requiredquentity) {
+    public Boolean isInStorage(Long id, Integer requiredQuantity) {
         Storage product = repository.findById(id).orElse(null);
-        return product.getQuantity() >= requiredquentity;
+        return product.getQuantity() >= requiredQuantity;
 
     }
     @CachePut(value = "storage", key = "#addedId")
@@ -49,13 +48,4 @@ public class StorageService {
         return true;
     }
 
-    @CachePut(value = "storage", key = "#addedId")
-    public void addProductByIdByOne(Long addedId) {
-        repository.addProductByIdByOne(addedId);
-    }
-
-    @CacheEvict(value = "storage", key = "#deletedId")
-    public void deleteProductByIdByOne(Long deletedId) {
-        repository.deleteProductByIdByOne(deletedId);
-    }
 }

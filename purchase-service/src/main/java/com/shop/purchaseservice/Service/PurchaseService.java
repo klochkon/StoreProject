@@ -1,14 +1,18 @@
 package com.shop.purchaseservice.Service;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
+import com.shop.purchaseservice.Client.StorageClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 
+
 @Service
+@RequiredArgsConstructor
 public class PurchaseService {
 
+    private final StorageClient storageClient;
     HashMap<Long, Integer> cart = new HashMap<>();
 
     public void addToCart(Long productId, Integer quantity) {
@@ -27,11 +31,19 @@ public class PurchaseService {
         cart.clear();
     }
 
-    public HashMap<Long, Integer> findAllCart() {return cart;}
+    public HashMap<Long, Integer> findAllCart() {
+        return cart;
+    }
 
-//Purchase todo -------------------------------------------------------------
+    public Object isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
+        return storageClient.isOrderInStorage(cart);
+    }
 
-//--------------------------------------------------------------
+
+
 
 
 }
+
+
+

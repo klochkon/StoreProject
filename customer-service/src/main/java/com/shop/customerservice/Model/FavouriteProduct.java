@@ -6,8 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "FavouriteProduct")
+@Table(name = "favourite_product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,9 +21,8 @@ public class FavouriteProduct {
     private Long id;
     private String favouriteProduct;
 
-    @ManyToOne()
-    @JoinColumn(name = "customerId")
-    private Customer customer;
+    @ManyToMany(mappedBy = "customer")
+    private Set<Customer> customer;
 
 
 

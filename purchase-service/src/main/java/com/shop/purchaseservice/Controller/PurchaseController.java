@@ -5,6 +5,7 @@ import com.shop.purchaseservice.Service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.HashMap;
 
 @RestController
@@ -18,7 +19,7 @@ public class PurchaseController {
         service.addToCart(id, quantity);
     }
 
-    @DeleteMapping("remove-{}")
+    @DeleteMapping("remove-{id}")
     public void removeFromCart(@PathVariable Long id) {
         service.removeFromCart(id);
     }
@@ -34,7 +35,13 @@ public class PurchaseController {
     }
 
     @GetMapping("find-all-cart")
-    public HashMap<Long, Integer> findAllCart() {return service.findAllCart();}
+    public HashMap<Long, Integer> findAllCart() {
+        return service.findAllCart();
+    }
+
+
+
+
 
 
 }

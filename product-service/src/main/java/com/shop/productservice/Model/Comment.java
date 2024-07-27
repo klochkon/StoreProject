@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "Comment")
+@Table(name = "comment")
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class Comment {
     private Date dateOfPublishing;
     private String comment;
     @ManyToOne
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
 

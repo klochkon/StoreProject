@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Table(name = "Customer")
+@Table(name = "customer")
 public class Customer {
 
     @Id
@@ -31,10 +32,21 @@ public class Customer {
     private String sex;
     private Date dateOfBirth;
 
+    @ManyToMany
+    @JoinTable(name = "customer_favourite_category",
+    joinColumns = @JoinColumn(name = "customer_id"),
+    inverseJoinColumns = @JoinColumn(name = "favourite_category_id"))
+    private Set<FavouriteCategory> favouriteCategory;
+
+    @ManyToMany
+    @JoinTable(name = "customer_favourite_product",
+    joinColumns = @JoinColumn(name = "customer_id"),
+    inverseJoinColumns = @JoinColumn(name = "favourite_product_id"))
+    private Set<FavouriteProduct> favouriteProduct;
+
     @OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<FavouriteCategory> favouriteCategory;
+    private List<Order> order;
 
 
-    @OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<FavouriteProduct> favouriteProduct;
+
 }

@@ -25,20 +25,6 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
             nativeQuery = true)
     void deleteproductById(Long deletedId, Integer quantityDeleted);
 
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Storage " +
-            "SET quantity = quantity + 1 " +
-            "WHERE id = :addedId",
-            nativeQuery = true)
-    void addProductByIdByOne(@Param("addedId")Long addedId);
 
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Storage " +
-            "SET quantity = quantity - 1 " +
-            "WHERE id = :addedId",
-            nativeQuery = true)
-    void deleteProductByIdByOne(@Param("deletedId")Long deletedId);
 
 }

@@ -1,33 +1,27 @@
 package com.shop.customerservice.Controller;
 
-import com.shop.customerservice.Model.FavouriteCategory;
 import com.shop.customerservice.Service.FavouriteCategoryService;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/favourite-category")
+@RequestMapping("api/v1/favouriteCategory")
 public class FavouriteCategoryController {
 
     private final FavouriteCategoryService service;
 
-    @GetMapping("find-by-customer-id-{customerId}")
-    public List<String> findAllFavouriteCategoryByCustomerId(@PathVariable Long customerId) {
-        return service.findAllFavouriteCategoryByCustomerId(customerId);
+    @GetMapping("find/customer/{id}")
+    public Set<String> findFavouriteCategoryByCustomerId(@PathVariable Long id) {
+        return service.findFavouriteCategoryByCustomerId(id);
     }
 
-    @PostMapping("add-{favouriteCategory}")
-    public void addFavouriteCategory(@RequestBody FavouriteCategory favouriteCategory) {
-        service.addFavouriteCategory(favouriteCategory);
+    @PutMapping("set/customer/{id}")
+    public void setFavouriteCategoryByCustomerId(@PathVariable Long id, @RequestBody Set<String> favouriteCategories) {
+        service.setFavouriteCategoryByCustomerId(id, favouriteCategories);
     }
-
-    @DeleteMapping("delete-{id}")
-    public void deleteFavouriteCategoryById(@PathVariable Long id){
-        service.deleteFavouriteCategoryById(id);
-    }
-
-
 }

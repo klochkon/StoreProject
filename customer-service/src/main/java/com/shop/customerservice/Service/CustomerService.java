@@ -9,37 +9,43 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerRepository repository;
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public void saveCustomer(Customer customer) {
+        repository.save(customer);
     }
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
-    public Customer updateCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public void updateCustomer(Customer customer) {
+        repository.save(customer);
     }
 
     @CacheEvict(value = {"customer", "allCustomer"}, key = "#id")
     public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Cacheable(value = "customer", key = "#id")
     public Customer findCustomerById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Cacheable(value = "allCustomer")
     public List<Customer> findAllCustomer() {
-        return customerRepository.findAll();
+        return repository.findAll();
     }
+
+
+
+
+
 
 
 }

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.shop</groupId>
-    <artifactId>customer-service</artifactId>
+    <artifactId>customerSql-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>customer-service</name>
-    <description>customer-service</description>
+    <name>customerSql-service</name>
+    <description>customerSql-service</description>
     <url/>
     <licenses>
         <license/>
@@ -67,6 +67,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
 
     </dependencies>
 
@@ -86,5 +91,17 @@
             </plugin>
         </plugins>
     </build>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Cloud BOM для сумісності версій -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.SR8</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

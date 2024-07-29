@@ -1,34 +1,27 @@
 package com.shop.customerservice.Service;
 
-import com.shop.customerservice.Model.FavouriteCategory;
-import com.shop.customerservice.Repository.FavouriteCategoryRepository;
-import io.lettuce.core.dynamic.annotation.Param;
+import com.shop.customerservice.Model.Customer;
+import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class FavouriteCategoryService {
 
-    private final FavouriteCategoryRepository repository;
+    private final CustomerRepository repository;
 
-    @Cacheable(value = "allFavouriteCategories")
-    public List<String> findAllFavouriteCategoryByCustomerId(Long customerId) {
-        return repository.findFavouriteCategoryByCustomerId(customerId);
+    public Set<String> findFavouriteCategoryByCustomerId(Long id) throws NullPointerException {
+        Customer customer = repository.findById(id).orElse(null);
+        return customer.getFavouriteCategory();
     }
 
-    @CachePut(value = "allFavouriteCategories", key = "#favouriteCategory.id")
-    public void addFavouriteCategory(FavouriteCategory favouriteCategory) {
-        repository.save(favouriteCategory);
+    public void setFavouriteCategoryByCustomerId(Long id, Set<String> favouriteCategories) throws NullPointerException {
+        Customer customer = repository.findById(id).orElse(null);
+        customer.setFavouriteCategory(favouriteCategories);
     }
 
-    @CacheEvict(value = "allFavouriteCategories", key = "#id")
-    public void deleteFavouriteCategoryById(Long id) {
-        repository.deleteById(id);
-    }
+
 }

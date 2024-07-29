@@ -1,35 +1,28 @@
 package com.shop.customerservice.Service;
 
-
-import com.shop.customerservice.Model.FavouriteProduct;
-import com.shop.customerservice.Repository.FavouriteProductRepository;
+import com.shop.customerservice.Model.Customer;
+import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class FavouriteProductService {
 
-    private final FavouriteProductRepository repository;
+    private final CustomerRepository repository;
 
-    @Cacheable(value = "allFavouriteProduct")
-    public List<String> findAllFavouriteProductByCustomerId(Long customerId) {
-        return repository.findFavouriteProductByCustomerId(customerId);
+    public Set<String> findFavouriteProductByCustomerId(Long id) throws NullPointerException {
+        Customer customer = repository.findById(id).orElse(null);
+        return customer.getFavouriteProduct();
     }
 
-    @CachePut(value = "allFavouriteProduct", key = "#favouriteProduct.id")
-    public void addFavouriteProduct(FavouriteProduct favouriteProduct) {
-        repository.save(favouriteProduct);
+    public void setFavouriteProductByCustomerId(Long id, Set<String> favouriteProducts) throws NullPointerException {
+        Customer customer = repository.findById(id).orElse(null);
+        customer.setFavouriteProduct(favouriteProducts);
     }
 
-    @CacheEvict(value = "allFavouriteProduct", key = "#id")
-    public void deleteFavouriteProductById(Long id){
-        repository.deleteById(id);
-    }
+
+
 }

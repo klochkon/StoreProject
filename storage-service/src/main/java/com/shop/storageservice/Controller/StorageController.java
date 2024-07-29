@@ -12,8 +12,9 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class StorageController {
     private final StorageService service;
+
     @GetMapping("isInStorage")
-    public Boolean isInStorage(@RequestBody Long id, Integer requiredQuantity){
+    public Boolean isInStorage(@RequestBody Long id, Integer requiredQuantity) {
         return service.isInStorage(id, requiredQuantity);
     }
 
@@ -23,15 +24,17 @@ public class StorageController {
     }
 
     @PostMapping("add")
-    public void addProductById(@RequestParam Integer quantityAdded,@RequestParam Long addedId){
+    public void addProductById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
         service.addProductById(addedId, quantityAdded);
     }
 
     @DeleteMapping("delete")
-    public void deleteProductById(@RequestParam Integer quantityDeleted,@RequestParam Long deletedId){
-        service.deleteProductById(deletedId,quantityDeleted);
+    public void deleteProductById(@RequestParam Integer quantityDeleted, @RequestParam Long deletedId) {
+        service.deleteProductById(deletedId, quantityDeleted);
     }
 
     @GetMapping("order-check")
-    public Object isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {return service.isOrderInStorage(cart);}
+    public Object isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
+        return service.isOrderInStorage(cart);
+    }
 }

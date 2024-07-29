@@ -7,38 +7,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService service;
 
     @PostMapping("save")
-    public Customer saveUser(@RequestBody Customer customer) {
-        return service.saveCustomer(customer);
+    public void saveUser(@RequestBody Customer customer) {
+        service.saveCustomer(customer);
     }
 
     @PutMapping("update")
-    public Customer updateUser(@RequestBody Customer customer) {
-        return service.updateCustomer(customer);
+    public void updateUser(@RequestBody Customer customer) {
+        service.updateCustomer(customer);
     }
 
-    @DeleteMapping("delete-by-id-{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteUser(@PathVariable Long id) {
         service.deleteCustomerById(id);
     }
 
-    @GetMapping("find-by-id-{id}")
+    @GetMapping("find/{id}")
     public Customer findCustomerById(@PathVariable Long id) {
         return service.findCustomerById(id);
     }
 
-    @GetMapping("find-all")
+    @GetMapping("find/all")
     public List<Customer> findAllCustomer() {
         return service.findAllCustomer();
     }
-
-
-
 }

@@ -41,6 +41,6 @@ public class OrderController {
 
     @GetMapping("find/{customerId}")
     public List<Order> findByCustomerId(@PathVariable Long customerId) {
-        return service.findByCustomerId(customerId);
+        return service.findAllByCustomerId(customerId);
     }
 }

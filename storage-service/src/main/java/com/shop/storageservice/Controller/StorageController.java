@@ -34,7 +34,15 @@ public class StorageController {
     }
 
     @GetMapping("order-check")
-    public Object isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
+    public Boolean isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
         return service.isOrderInStorage(cart);
     }
+
+    @GetMapping("find/order/out")
+    public HashMap<String, Integer> findOutOfStorageProduct(@RequestBody HashMap<Long, Integer> cart) {
+        return service.findOutOfStorageProduct(cart);
+    }
+
+
+
 }

@@ -1,5 +1,7 @@
 package com.shop.purchaseservice.Service;
 
+import com.shop.customerservice.Model.Order;
+import com.shop.purchaseservice.Client.CustomerClient;
 import com.shop.purchaseservice.Client.StorageClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,24 +15,23 @@ import java.util.HashMap;
 public class PurchaseService {
 
     private final StorageClient storageClient;
+    private final CustomerClient customerClient;
 
 
-    public Boolean isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
-        return storageClient.isOrderInStorage(cart);
-    }
-
-    public void purchase(HashMap<Long, Integer> cart) {
-        if(isOrderInStorage(cart)) {
-
+    public String purchase(Order order) {
+        HashMap<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
+        String message = "Order wasn`t reserved, because there are only ";
+        if (storageClient.isOrderInStorage(order.getCart())) {
+            customerClient.saveOrder(order);
+            return "Order was reserved!";
+        } else {
+            for (HashMap.Entry<String, Integer> entry : outOfStorage.entrySet()) {
+                message += entry.getValue() + "of" + entry.getKey() + ", ";
+            }
+            message = message.substring(0, message.length() - 2);
         }
-
+        return message;
     }
-
-
-
-
-
 }
-
 
 

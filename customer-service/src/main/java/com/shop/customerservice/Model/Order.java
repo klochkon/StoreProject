@@ -22,5 +22,5 @@ public class Order {
     @Id
     private Long id;
     private Long customerId;
-    private HashMap<String, Integer> cart;
+    private HashMap<Long, Integer> cart;
 }

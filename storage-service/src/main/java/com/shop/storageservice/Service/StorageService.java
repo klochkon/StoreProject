@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,13 +40,22 @@ public class StorageService {
 
     public Boolean isOrderInStorage(HashMap<Long, Integer> cart) {
         for (HashMap.Entry<Long, Integer> entry : cart.entrySet()) {
-
-            if(!isInStorage(entry.getKey(), entry.getValue())) {
+            if (!isInStorage(entry.getKey(), entry.getValue())) {
                 return false;
             }
-
         }
         return true;
+    }
+
+    public HashMap<String, Integer> findOutOfStorageProduct(HashMap<Long, Integer> cart) {
+        HashMap<String, Integer> outOfStorageProduct = new HashMap<>();
+        for (HashMap.Entry<Long, Integer> entry : cart.entrySet()) {
+            if (!isInStorage(entry.getKey(), entry.getValue())) {
+                Storage product = repository.findById(entry.getKey()).orElse(null);
+                outOfStorageProduct.put(product.getName(), product.getQuantity());
+            }
+        }
+        return outOfStorageProduct;
     }
 
 }

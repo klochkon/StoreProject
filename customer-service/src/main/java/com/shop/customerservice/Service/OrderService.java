@@ -29,7 +29,7 @@ public class OrderService {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Order> findByCustomerId(Long customerId) {
+    public List<Order> findAllByCustomerId(Long customerId) {
         return repository.findAllByCustomerId(customerId);
     }
 }

@@ -2,7 +2,6 @@ package com.shop.productservice.Service;
 
 import com.shop.productservice.Model.Comment;
 import com.shop.productservice.Repository.CommentRepository;
-import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;

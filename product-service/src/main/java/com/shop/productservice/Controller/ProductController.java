@@ -15,7 +15,7 @@ public class ProductController {
 
     ProductService service;
 
-    @GetMapping("get-all")
+    @GetMapping("get/all")
     public List<Product> getAllProduct() {return service.getAllProduct();}
 
     @PostMapping("create")
@@ -24,13 +24,13 @@ public class ProductController {
     @PutMapping("update")
     public Product updateProduct(@RequestBody Product product) {return service.UpdateProduct(product);}
 
-    @DeleteMapping("delete-by-{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteProductById(@PathVariable Long id) {service.deleteById(id);}
 
-    @GetMapping("get-with-id-{id}")
+    @GetMapping("get/{id}")
     public Product getProductById(@PathVariable Long id) {return service.findById(id);}
 
-    @GetMapping("get-all-{category}")
+    @GetMapping("get/category/{category}")
     public List<Product> findProductByCategory(@PathVariable String category) {
         return service.findAllByCategory(category);
     }

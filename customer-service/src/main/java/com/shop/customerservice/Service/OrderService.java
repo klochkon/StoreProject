@@ -3,6 +3,7 @@ package com.shop.customerservice.Service;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class OrderService {
 
     private final OrderRepository repository;
 
+    @KafkaListener(topics = "order-topic", groupId = "order")
     public void saveOrder(Order order) {
         repository.save(order);
     }

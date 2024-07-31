@@ -1,11 +1,10 @@
 package com.shop.purchaseservice.Service;
 
 import com.shop.customerservice.Model.Order;
-import com.shop.purchaseservice.Client.CustomerClient;
 import com.shop.purchaseservice.Client.StorageClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 
@@ -15,14 +14,13 @@ import java.util.HashMap;
 public class PurchaseService {
 
     private final StorageClient storageClient;
-    private final CustomerClient customerClient;
-
+    private final KafkaTemplate<String, Order> kafka;
 
     public String purchase(Order order) {
         HashMap<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
         String message = "Order wasn`t reserved, because there are only ";
         if (storageClient.isOrderInStorage(order.getCart())) {
-            customerClient.saveOrder(order);
+            kafka.send("order-topic", order);
             return "Order was reserved!";
         } else {
             for (HashMap.Entry<String, Integer> entry : outOfStorage.entrySet()) {

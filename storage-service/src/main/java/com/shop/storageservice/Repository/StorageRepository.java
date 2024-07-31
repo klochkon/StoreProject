@@ -4,9 +4,10 @@ import com.shop.storageservice.Model.Storage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public interface StorageRepository extends JpaRepository<Storage, Long> {
 
     @Modifying
@@ -23,7 +24,7 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
             "SET quantity = quantity - quantityDeleted" +
             "WHERE id = deletedId",
             nativeQuery = true)
-    void deleteproductById(Long deletedId, Integer quantityDeleted);
+    void deleteProductById(Long deletedId, Integer quantityDeleted);
 
 
 

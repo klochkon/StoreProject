@@ -13,13 +13,13 @@ public class FavouriteProductController {
 
     private final FavouriteProductService service;
 
-    @GetMapping("find/customer/{id}")
-    public Set<String> findFavouriteProductByCustomerId(@PathVariable Long id) {
-        return service.findFavouriteProductByCustomerId(id);
+    @GetMapping("find/customer/{customerId}")
+    public Set<String> findFavouriteProductByCustomerId(@PathVariable Long customerId) {
+        return service.findFavouriteProductByCustomerId(customerId);
     }
 
-    @PutMapping("set/customer/{id}")
-    public void setFavouriteProductByCustomerId(@PathVariable Long id, @RequestBody Set<String> favouriteProducts) {
-        service.setFavouriteProductByCustomerId(id, favouriteProducts);
+    @PutMapping("set/customer/{customerId}")
+    public void setFavouriteProductByCustomerId(@PathVariable Long customerId, @RequestBody Set<String> favouriteProducts) {
+        service.setFavouriteProductByCustomerId(customerId, favouriteProducts);
     }
 }

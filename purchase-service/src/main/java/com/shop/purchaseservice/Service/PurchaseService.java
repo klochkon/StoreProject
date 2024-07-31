@@ -18,17 +18,21 @@ public class PurchaseService {
 
     public String purchase(Order order) {
         HashMap<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
-        String message = "Order wasn`t reserved, because there are only ";
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append("Order wasn`t reserved, because there are only ");
         if (storageClient.isOrderInStorage(order.getCart())) {
             kafka.send("order-topic", order);
             return "Order was reserved!";
         } else {
             for (HashMap.Entry<String, Integer> entry : outOfStorage.entrySet()) {
-                message += entry.getValue() + "of" + entry.getKey() + ", ";
+                messageBuilder.append(entry.getValue())
+                        .append(" of ")
+                        .append(entry.getKey())
+                        .append(", ");
             }
-            message = message.substring(0, message.length() - 2);
+            messageBuilder.setLength(messageBuilder.length() - 2);
         }
-        return message;
+        return messageBuilder.toString();
     }
 }
 

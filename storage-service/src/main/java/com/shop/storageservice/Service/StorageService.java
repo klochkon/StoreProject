@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +22,7 @@ public class StorageService {
         return repository.findById(id).orElse(null);
     }
 
+    @Cacheable(value = "storage", key = "#id")
     public Boolean isInStorage(Long id, Integer requiredQuantity) throws NullPointerException {
         Storage product = repository.findById(id).orElse(null);
         return product.getQuantity() >= requiredQuantity;
@@ -35,7 +36,7 @@ public class StorageService {
 
     @CacheEvict(value = "storage", key = "#deletedId")
     public void deleteProductById(Long deletedId, Integer quantityDeleted) {
-        repository.deleteproductById(deletedId, quantityDeleted);
+        repository.deleteProductById(deletedId, quantityDeleted);
     }
 
     public Boolean isOrderInStorage(HashMap<Long, Integer> cart) {

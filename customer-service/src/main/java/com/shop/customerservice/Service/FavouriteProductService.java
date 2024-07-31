@@ -3,6 +3,8 @@ package com.shop.customerservice.Service;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -13,13 +15,15 @@ public class FavouriteProductService {
 
     private final CustomerRepository repository;
 
-    public Set<String> findFavouriteProductByCustomerId(Long id) throws NullPointerException {
-        Customer customer = repository.findById(id).orElse(null);
+    @Cacheable(value = "favoriteProduct", key = "#customerId")
+    public Set<String> findFavouriteProductByCustomerId(Long customerId) throws NullPointerException {
+        Customer customer = repository.findById(customerId).orElse(null);
         return customer.getFavouriteProduct();
     }
 
-    public void setFavouriteProductByCustomerId(Long id, Set<String> favouriteProducts) throws NullPointerException {
-        Customer customer = repository.findById(id).orElse(null);
+    @CachePut(value = "favoriteProduct", key = "#customerId")
+    public void setFavouriteProductByCustomerId(Long customerId, Set<String> favouriteProducts) throws NullPointerException {
+        Customer customer = repository.findById(customerId).orElse(null);
         customer.setFavouriteProduct(favouriteProducts);
     }
 

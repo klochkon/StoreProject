@@ -13,12 +13,12 @@ import java.util.HashMap;
 public class StorageController {
     private final StorageService service;
 
-    @GetMapping("isInStorage")
+    @GetMapping("check")
     public Boolean isInStorage(@RequestBody Long id, Integer requiredQuantity) {
         return service.isInStorage(id, requiredQuantity);
     }
 
-    @GetMapping("find-by-{id}")
+    @GetMapping("find/{id}")
     public Storage findById(@PathVariable Long id) {
         return service.findById(id);
     }
@@ -33,7 +33,7 @@ public class StorageController {
         service.deleteProductById(deletedId, quantityDeleted);
     }
 
-    @GetMapping("order-check")
+    @GetMapping("order/check")
     public Boolean isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
         return service.isOrderInStorage(cart);
     }

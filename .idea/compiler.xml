@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="customer-service" />
         <module name="purchase-service" />
+        <module name="analytics-service" />
         <module name="product-service" />
         <module name="storage-service" />
         <module name="main-service" />
@@ -20,6 +21,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Microservices" options="-parameters" />
+      <module name="analytics-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="main-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />

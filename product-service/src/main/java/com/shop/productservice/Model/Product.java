@@ -35,7 +35,7 @@ public class Product {
     @DecimalMin(value = "1.0", inclusive = true, message = "The minimum value is 1.0")
     @DecimalMax(value = "5.0", inclusive = true, message = "The maximum value is 5.0")
     @Digits(integer = 1, fraction = 1)
-    private BigDecimal feedBack;
+    private Double feedBack;
 
     @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comment;

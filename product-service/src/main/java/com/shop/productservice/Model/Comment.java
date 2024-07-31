@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,7 +20,7 @@ public class Comment {
     @Id
     private Long id;
     private String authorNickname;
-    private Date dateOfPublishing;
+    private LocalDate dateOfPublishing;
     private String comment;
     @ManyToOne
     @JoinColumn(name = "product_id")

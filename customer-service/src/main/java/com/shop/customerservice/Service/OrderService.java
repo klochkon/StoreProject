@@ -15,12 +15,12 @@ public class OrderService {
     private final OrderRepository repository;
 
     @KafkaListener(topics = "order-topic", groupId = "order")
-    public void saveOrder(Order order) {
-        repository.save(order);
+    public Order saveOrder(Order order) {
+        return repository.save(order);
     }
 
-    public void updateOrder(Order order) {
-        repository.save(order);
+    public Order updateOrder(Order order) {
+        return repository.save(order);
     }
 
     public void deleteOrderById(Long id) {

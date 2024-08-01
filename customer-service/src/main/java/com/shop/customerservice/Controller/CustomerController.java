@@ -16,17 +16,17 @@ public class CustomerController {
     private final CustomerService service;
 
     @PostMapping("save")
-    public void saveUser(@RequestBody Customer customer) {
-        service.saveCustomer(customer);
+    public Customer saveCustomer(@RequestBody Customer customer) {
+        return service.saveCustomer(customer);
     }
 
     @PutMapping("update")
-    public void updateUser(@RequestBody Customer customer) {
-        service.updateCustomer(customer);
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return service.updateCustomer(customer);
     }
 
     @DeleteMapping("delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteCustomer(@PathVariable Long id) {
         service.deleteCustomerById(id);
     }
 

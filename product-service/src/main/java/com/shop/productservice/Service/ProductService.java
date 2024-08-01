@@ -28,7 +28,7 @@ public class ProductService {
 
 
     @CachePut(value = {"product", "allProduct"}, key = "#product.id")
-    public Product UpdateProduct(Product product) {
+    public Product updateProduct(Product product) {
         return repository.save(product);
     }
 

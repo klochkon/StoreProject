@@ -17,14 +17,14 @@ public class OrderController {
 
     @Transactional
     @PostMapping("save")
-    public void saveOrder(@RequestBody Order order) {
-        service.saveOrder(order);
+    public Order saveOrder(@RequestBody Order order) {
+        return service.saveOrder(order);
     }
 
     @Transactional
     @PutMapping("update")
-    public void updateOrder(Order order) {
-        service.updateOrder(order);
+    public Order updateOrder(Order order) {
+        return service.updateOrder(order);
     }
 
     @Transactional

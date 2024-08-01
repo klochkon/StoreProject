@@ -18,13 +18,13 @@ public class CustomerService {
     private final CustomerRepository repository;
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
-    public void saveCustomer(Customer customer) {
-        repository.save(customer);
+    public Customer saveCustomer(Customer customer) {
+        return repository.save(customer);
     }
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
-    public void updateCustomer(Customer customer) {
-        repository.save(customer);
+    public Customer updateCustomer(Customer customer) {
+        return repository.save(customer);
     }
 
     @CacheEvict(value = {"customer", "allCustomer"}, key = "#id")

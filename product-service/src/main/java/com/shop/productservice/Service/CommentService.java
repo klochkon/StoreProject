@@ -22,13 +22,13 @@ public class CommentService {
     }
 
     @CachePut(value = "allProductComment", key = "#comment.id")
-    public void addComment(Comment comment) {
-        repository.save(comment);
+    public Comment addComment(Comment comment) {
+        return repository.save(comment);
     }
 
     @CachePut(value = "allProductComment", key = "#comment.id")
-    public void updateComment(Comment comment) {
-        repository.save(comment);
+    public Comment updateComment(Comment comment) {
+        return repository.save(comment);
     }
 
     @CacheEvict(value = "allProductComment", key = "#id")

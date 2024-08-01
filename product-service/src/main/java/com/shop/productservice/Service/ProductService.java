@@ -44,6 +44,6 @@ public class ProductService {
 
     @Cacheable(value = "allProduct", key = "#category")
     public List<Product> findAllByCategory(String category) {
-        return repository.findByCategory(category);
+        return repository.findAllByCategory(category);
     }
 }

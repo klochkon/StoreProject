@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,11 +22,11 @@ public class Customer {
 
     private String email;
     private String phoneNumber;
-    private String nickname;
+    private String nickName;
     private String name;
     private String surname;
     private String sex;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private Set<String> favouriteCategory;
     private Set<String> favouriteProduct;

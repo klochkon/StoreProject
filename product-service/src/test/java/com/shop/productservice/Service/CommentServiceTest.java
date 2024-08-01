@@ -12,6 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceTest {
 
@@ -19,6 +24,8 @@ public class CommentServiceTest {
     private CommentRepository repository;
 
     private Comment comment;
+
+    private Product product;
 
     private  CommentService service;
 
@@ -49,19 +56,42 @@ public class CommentServiceTest {
     @Test
     void findAllByProductId() {
         List<Comment> comments = List.of(comment);
-//        List<Comment> testComments = service.findAllByProductId();
+        when(repository.findAllByProductId(anyLong())).thenReturn(comments);
+        List<Comment> testComments = service.findAllByProductId(product.getId());
+        assertEquals(comments, testComments);
+        verify(repository, times(1)).findAllByProductId(anyLong());
+
     }
 
+    @Test
+    void addComment() {
+        when(repository.save(any(Comment.class))).thenReturn(comment);
+        Comment testComment = service.addComment(comment);
+        assertEquals(comment, testComment);
+        verify(repository, times(1)).save(any(Comment.class));
+    }
 
+    @Test
+    void updateComment() {
+        when(repository.save(any(Comment.class))).thenReturn(comment);
+        Comment testComment = service.updateComment(comment);
+        assertEquals(comment, testComment);
+        verify(repository, times(1)).save(any(Comment.class));
+    }
 
+    @Test
+    void deleteCommentById() {
+        doNothing().when(repository).deleteById(anyLong());
+        service.deleteCommentById(comment.getId());
+        verify(repository, times(1)).deleteById(anyLong());
+    }
 
-
-
-
-
-
-
-
-
-
+    @Test
+    void findAllByAuthorNickname() {
+        List<Comment> comments = List.of(comment);
+        when(repository.findAllByAuthorNickname(anyString())).thenReturn(comments);
+        List<Comment> testComments = service.findAllByAuthorNickname(comment.getAuthorNickname());
+        assertEquals(comments, testComments);
+        verify(repository, times(1)).findAllByAuthorNickname(anyString());
+    }
 }

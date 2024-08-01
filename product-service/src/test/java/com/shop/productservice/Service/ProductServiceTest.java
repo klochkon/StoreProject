@@ -64,10 +64,10 @@ public class ProductServiceTest {
 
     @Test
     void createProductTest() {
-    when(repository.save(any(Product.class))).thenReturn(product);
-    Product testProduct = service.createProduct(product);
-    assertEquals(product, testProduct);
-    verify(repository, times(1)).save(any(Product.class));
+        when(repository.save(any(Product.class))).thenReturn(product);
+        Product testProduct = service.createProduct(product);
+        assertEquals(product, testProduct);
+        verify(repository, times(1)).save(any(Product.class));
     }
 
     @Test
@@ -80,9 +80,9 @@ public class ProductServiceTest {
 
     @Test
     void deleteByIdTest() {
-        assertTrue(repository.findById(product.getId()).isPresent());
+        doNothing().when(repository).deleteById(anyLong());
         service.deleteById(product.getId());
-        assertFalse(repository.findById(product.getId()).isPresent());
+        verify(repository, times(1)).deleteById(anyLong());
     }
 
     @Test
@@ -96,12 +96,9 @@ public class ProductServiceTest {
     @Test
     void findAllByCategoryTest() {
         List<Product> products = List.of(product);
+        when(repository.findAllByCategory(anyString())).thenReturn(products);
         List<Product> testProducts = service.findAllByCategory(product.getCategory());
         assertEquals(products, testProducts);
-        verify(repository, times(1)).findByCategory(anyString());
+        verify(repository, times(1)).findAllByCategory(anyString());
     }
-
-
-
-
 }

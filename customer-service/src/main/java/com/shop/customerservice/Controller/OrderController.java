@@ -35,7 +35,7 @@ public class OrderController {
 
     @GetMapping("find/{id}")
     public Order findById(@PathVariable Long id) {
-        return service.findById(id);
+        return service.findOrderById(id);
     }
 
     @GetMapping("find/{customerId}")

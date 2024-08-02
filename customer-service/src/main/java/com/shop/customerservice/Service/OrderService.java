@@ -27,7 +27,7 @@ public class OrderService {
         repository.deleteById(id);
     }
 
-    public Order findById(Long id) {
+    public Order findOrderById(Long id) {
         return repository.findById(id).orElse(null);
     }
 

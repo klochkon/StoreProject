@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -32,6 +33,8 @@ public class ProductServiceTest {
 
     @BeforeEach
     public void setUp() {
+        MockitoAnnotations.openMocks(this);
+
         Product product = new Product();
         product.setId(1L);
         product.setCategory("category");
@@ -50,11 +53,10 @@ public class ProductServiceTest {
         comment1.setDateOfPublishing(dateOfPublishing);
         comment1.setId(1L);
         product.setComment(comments);
-        repository.save(product);
     }
 
     @Test
-    void getAllProductTest() {
+    void getAllProduct() {
         List<Product> products = List.of(product);
         when(repository.findAll()).thenReturn(products);
         List<Product> testProducts = service.getAllProduct();
@@ -63,7 +65,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void createProductTest() {
+    void createProduct() {
         when(repository.save(any(Product.class))).thenReturn(product);
         Product testProduct = service.createProduct(product);
         assertEquals(product, testProduct);
@@ -71,7 +73,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void updateProductTest() {
+    void updateProduct() {
         when(repository.save(any(Product.class))).thenReturn(product);
         Product testProduct = service.updateProduct(product);
         assertEquals(product, testProduct);
@@ -79,14 +81,14 @@ public class ProductServiceTest {
     }
 
     @Test
-    void deleteByIdTest() {
+    void deleteById() {
         doNothing().when(repository).deleteById(anyLong());
         service.deleteById(product.getId());
         verify(repository, times(1)).deleteById(anyLong());
     }
 
     @Test
-    void findByIdTest() {
+    void findById() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(product));
         Product testProduct = service.findById(product.getId());
         assertEquals(product, testProduct);
@@ -94,7 +96,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void findAllByCategoryTest() {
+    void findAllByCategory() {
         List<Product> products = List.of(product);
         when(repository.findAllByCategory(anyString())).thenReturn(products);
         List<Product> testProducts = service.findAllByCategory(product.getCategory());

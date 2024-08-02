@@ -26,7 +26,6 @@ public class StorageService {
     public Boolean isInStorage(Long id, Integer requiredQuantity) throws NullPointerException {
         Storage product = repository.findById(id).orElse(null);
         return product.getQuantity() >= requiredQuantity;
-
     }
 
     @CachePut(value = "storage", key = "#addedId")
@@ -41,7 +40,7 @@ public class StorageService {
 
     public Boolean isOrderInStorage(HashMap<Long, Integer> cart) {
         for (HashMap.Entry<Long, Integer> entry : cart.entrySet()) {
-            if (!isInStorage(entry.getKey(), entry.getValue())) {
+            if (!this.isInStorage(entry.getKey(), entry.getValue())) {
                 return false;
             }
         }

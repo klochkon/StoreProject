@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ class CustomerServiceTest {
     private Customer customer;
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         LocalDate dateOfBirth = LocalDate.of(2020, 8, 1);
         Customer customer = new Customer();
         Set<String> favouriteCategory = Set.of("favouriteCategory");

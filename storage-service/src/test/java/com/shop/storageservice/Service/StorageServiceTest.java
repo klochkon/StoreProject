@@ -33,7 +33,11 @@ class StorageServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Storage storage = new Storage(1L, 1, "name");
+        storage = Storage.builder()
+                .id(1L)
+                .quantity(1)
+                .name("name")
+                .build();
     }
 
     @Test

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -17,14 +17,14 @@ public class PurchaseService {
     private final KafkaTemplate<String, Order> kafka;
 
     public String purchase(Order order) {
-        HashMap<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
+        Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
         StringBuilder messageBuilder = new StringBuilder();
         messageBuilder.append("Order wasn`t reserved, because there are only ");
         if (storageClient.isOrderInStorage(order.getCart())) {
             kafka.send("order-topic", order);
             return "Order was reserved!";
         } else {
-            for (HashMap.Entry<String, Integer> entry : outOfStorage.entrySet()) {
+            for (Map.Entry<String, Integer> entry : outOfStorage.entrySet()) {
                 messageBuilder.append(entry.getValue())
                         .append(" of ")
                         .append(entry.getKey())

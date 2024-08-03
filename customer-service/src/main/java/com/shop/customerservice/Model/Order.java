@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,5 +23,5 @@ public class Order {
     @Id
     private Long id;
     private Long customerId;
-    private HashMap<Long, Integer> cart;
+    private Map<Long, Integer> cart;
 }

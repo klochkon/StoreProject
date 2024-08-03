@@ -16,13 +16,13 @@ public class FavouriteCategoryService {
     private final CustomerRepository repository;
 
     @Cacheable(value = "favoriteCategory", key = "#customerId")
-    public Set<String> findFavouriteCategoryByCustomerId(Long customerId) throws NullPointerException {
+    public Set<String> findFavouriteCategoryByCustomerId(Long customerId) {
         Customer customer = repository.findById(customerId).orElse(null);
         return customer.getFavouriteCategory();
     }
 
     @CachePut(value = "favoriteCategory", key = "#customerId")
-    public void setFavouriteCategoryByCustomerId(Long customerId, Set<String> favouriteCategories) throws NullPointerException {
+    public void setFavouriteCategoryByCustomerId(Long customerId, Set<String> favouriteCategories) {
         Customer customer = repository.findById(customerId).orElse(null);
         customer.setFavouriteCategory(favouriteCategories);
     }

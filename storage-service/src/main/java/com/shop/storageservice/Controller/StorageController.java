@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/storage")
@@ -34,12 +35,12 @@ public class StorageController {
     }
 
     @GetMapping("order/check")
-    public Boolean isOrderInStorage(@RequestBody HashMap<Long, Integer> cart) {
+    public Boolean isOrderInStorage(@RequestBody Map<Long, Integer> cart) {
         return service.isOrderInStorage(cart);
     }
 
     @GetMapping("find/order/out")
-    public HashMap<String, Integer> findOutOfStorageProduct(@RequestBody HashMap<Long, Integer> cart) {
+    public Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<Long, Integer> cart) {
         return service.findOutOfStorageProduct(cart);
     }
 

@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,9 +33,13 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        HashMap<Long, Integer> cart = new HashMap<>();
+        Map<Long, Integer> cart = new HashMap<>();
         cart.put(1L, 1);
-        Order order = new Order(1L, 2L, cart);
+        order = Order.builder()
+                .id(1L)
+                .customerId(2L)
+                .cart(cart)
+                .build();
     }
 
     @Test

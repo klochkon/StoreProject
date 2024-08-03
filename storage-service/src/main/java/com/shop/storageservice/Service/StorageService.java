@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -23,7 +24,7 @@ public class StorageService {
     }
 
     @Cacheable(value = "storage", key = "#id")
-    public Boolean isInStorage(Long id, Integer requiredQuantity) throws NullPointerException {
+    public Boolean isInStorage(Long id, Integer requiredQuantity) {
         Storage product = repository.findById(id).orElse(null);
         return product.getQuantity() >= requiredQuantity;
     }
@@ -38,8 +39,8 @@ public class StorageService {
         repository.deleteProductById(deletedId, quantityDeleted);
     }
 
-    public Boolean isOrderInStorage(HashMap<Long, Integer> cart) {
-        for (HashMap.Entry<Long, Integer> entry : cart.entrySet()) {
+    public Boolean isOrderInStorage(Map<Long, Integer> cart) {
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             if (!this.isInStorage(entry.getKey(), entry.getValue())) {
                 return false;
             }
@@ -47,9 +48,9 @@ public class StorageService {
         return true;
     }
 
-    public HashMap<String, Integer> findOutOfStorageProduct(HashMap<Long, Integer> cart) {
-        HashMap<String, Integer> outOfStorageProduct = new HashMap<>();
-        for (HashMap.Entry<Long, Integer> entry : cart.entrySet()) {
+    public Map<String, Integer> findOutOfStorageProduct(Map<Long, Integer> cart) {
+        Map<String, Integer> outOfStorageProduct = new HashMap<>();
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             if (!isInStorage(entry.getKey(), entry.getValue())) {
                 Storage product = repository.findById(entry.getKey()).orElse(null);
                 outOfStorageProduct.put(product.getName(), product.getQuantity());

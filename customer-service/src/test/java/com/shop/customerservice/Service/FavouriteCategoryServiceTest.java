@@ -33,23 +33,21 @@ class FavouriteCategoryServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setPhoneNumber("phoneNumber");
-        customer.setNickName("nickName");
-        customer.setName("name");
-        customer.setSurname("surname");
-        customer.setSex("sex");
-
         LocalDate dateOfBirth = LocalDate.of(2020, 8, 2);
-        customer.setDateOfBirth(dateOfBirth);
-
         Set<String> favouriteCategory= Set.of("favouriteCategory");
         Set<String> favouriteProduct= Set.of("favouriteProduct");
 
-        customer.setFavouriteCategory(favouriteCategory);
-        customer.setFavouriteProduct(favouriteProduct);
-
+        customer = Customer.builder()
+                .id(1L)
+                .phoneNumber("phoneNumber")
+                .nickName("nickName")
+                .name("name")
+                .dateOfBirth(dateOfBirth)
+                .surname("surname")
+                .sex("sex")
+                .favouriteProduct(favouriteProduct)
+                .favouriteCategory(favouriteCategory)
+                .build();
     }
 
     @Test

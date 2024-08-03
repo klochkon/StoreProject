@@ -28,31 +28,36 @@ public class ProductServiceTest {
 
     private Product product;
 
+    private Comment comment;
+
     @InjectMocks
     private ProductService service;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        Product product = new Product();
-        product.setId(1L);
-        product.setCategory("category");
-        product.setCost(1L);
-        product.setName("name");
-        product.setProducer("producer");
-        product.setDescription("description");
-        product.setFeedBack(1.1);
-
         List<Comment> comments = new ArrayList<>();
-        Comment comment1 = new Comment();
-        comment1.setProduct(product);
-        comment1.setComment("comment");
-        comment1.setAuthorNickname("authorNickname");
+        MockitoAnnotations.openMocks(this);
         LocalDate dateOfPublishing = LocalDate.of(2024, 8, 1);
-        comment1.setDateOfPublishing(dateOfPublishing);
-        comment1.setId(1L);
-        product.setComment(comments);
+
+        comment = Comment.builder()
+                .product(product)
+                .comment("comment")
+                .authorNickname("authorNickname")
+                .dateOfPublishing(dateOfPublishing)
+                .id(1L)
+                .build();
+        comments.add(comment);
+
+        product = Product.builder()
+                .id(1L)
+                .category("category")
+                .cost(1L)
+                .name("name")
+                .producer("producer")
+                .description("description")
+                .feedBack(1.1)
+                .comment(comments)
+                .build();
     }
 
     @Test

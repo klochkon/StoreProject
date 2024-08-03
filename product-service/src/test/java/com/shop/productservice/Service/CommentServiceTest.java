@@ -33,26 +33,27 @@ public class CommentServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-
+        LocalDate dateOfPublishing = LocalDate.of(2024, 8, 1);
         List<Comment> comments = List.of(comment);
 
-        Product product = new Product();
-        product.setId(1L);
-        product.setCategory("category");
-        product.setCost(1L);
-        product.setName("name");
-        product.setProducer("producer");
-        product.setDescription("description");
-        product.setFeedBack(1.1);
-        product.setComment(comments);
+        product = Product.builder()
+                .id(1L)
+                .category("category")
+                .cost(1L)
+                .name("name")
+                .producer("producer")
+                .description("description")
+                .feedBack(1.1)
+                .comment(comments)
+                .build();
 
-        Comment comment = new Comment();
-        comment.setProduct(product);
-        comment.setComment("comment");
-        comment.setAuthorNickname("authorNickname");
-        LocalDate dateOfPublishing = LocalDate.of(2024, 8, 1);
-        comment.setDateOfPublishing(dateOfPublishing);
-        comment.setId(1L);
+        comment = Comment.builder()
+                .product(product)
+                .comment("comment")
+                .authorNickname("authorNickname")
+                .dateOfPublishing(dateOfPublishing)
+                .id(1L)
+                .build();
     }
 
     @Test

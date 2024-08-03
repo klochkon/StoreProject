@@ -28,19 +28,20 @@ class CustomerServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         LocalDate dateOfBirth = LocalDate.of(2020, 8, 1);
-        Customer customer = new Customer();
         Set<String> favouriteCategory = Set.of("favouriteCategory");
         Set<String> favouriteProduct = Set.of("favouriteProduct");
-        customer.setFavouriteCategory(favouriteCategory);
-        customer.setDateOfBirth(dateOfBirth);
-        customer.setId(1L);
-        customer.setName("name");
-        customer.setEmail("email");
-        customer.setFavouriteProduct(favouriteProduct);
-        customer.setSex("sex");
-        customer.setSurname("surname");
-        customer.setPhoneNumber("phoneNumber");
-        customer.setNickName("nickName");
+        customer = Customer.builder()
+                .id(1L)
+                .name("name")
+                .surname("surname")
+                .email("email")
+                .sex("sex")
+                .phoneNumber("phoneNumber")
+                .nickName("nickName")
+                .dateOfBirth(dateOfBirth)
+                .favouriteCategory(favouriteCategory)
+                .favouriteProduct(favouriteProduct)
+                .build();
     }
 
     @InjectMocks

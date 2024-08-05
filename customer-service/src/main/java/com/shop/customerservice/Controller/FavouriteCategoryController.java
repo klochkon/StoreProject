@@ -2,8 +2,6 @@ package com.shop.customerservice.Controller;
 
 import com.shop.customerservice.Service.FavouriteCategoryService;
 import lombok.RequiredArgsConstructor;
-
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;

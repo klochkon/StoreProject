@@ -5,7 +5,6 @@ import com.shop.storageservice.Service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -43,7 +42,6 @@ public class StorageController {
     public Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<Long, Integer> cart) {
         return service.findOutOfStorageProduct(cart);
     }
-
 
 
 }

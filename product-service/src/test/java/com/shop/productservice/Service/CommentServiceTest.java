@@ -28,7 +28,7 @@ public class CommentServiceTest {
 
     private Product product;
 
-    private  CommentService service;
+    private CommentService service;
 
     @BeforeEach
     public void setUp() {

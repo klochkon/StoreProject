@@ -1,10 +1,12 @@
 package com.shop.productservice.Model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -22,10 +24,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-
-
-
 
 
 }

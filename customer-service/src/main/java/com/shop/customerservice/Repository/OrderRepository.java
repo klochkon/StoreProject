@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends MongoRepository<Order, Long> {
-
     List<Order> findAllByCustomerId(Long customerId);
 }

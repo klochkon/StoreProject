@@ -22,6 +22,4 @@ public class Storage {
     private Long id;
     private Integer quantity;
     private String name;
-
-
 }

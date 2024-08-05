@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface StorageRepository extends JpaRepository<Storage, Long> {
 
     @Modifying
-    @Transactional
     @Query(value = "UPDATE Storage" +
             "SET quantity = quantity + quantityAdded" +
             "WHERE id = addedId",
@@ -19,15 +18,9 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
     void addProductById(Long addedId, Integer quantityAdded);
 
     @Modifying
-    @Transactional
     @Query(value = "UPDATE Storage" +
             "SET quantity = quantity - quantityDeleted" +
             "WHERE id = deletedId",
             nativeQuery = true)
     void deleteProductById(Long deletedId, Integer quantityDeleted);
-
-
-
-
-
 }

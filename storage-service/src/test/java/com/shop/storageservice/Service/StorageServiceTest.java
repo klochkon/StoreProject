@@ -12,9 +12,10 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -74,7 +75,7 @@ class StorageServiceTest {
     @Test
     void isOrderInStorage() {
         when(service.isInStorage(anyLong(), anyInt())).thenReturn(true);
-        HashMap<Long, Integer> cart = new HashMap<>();
+        Map<Long, Integer> cart = new HashMap<>();
         cart.put()
         Boolean testStorage =
     }

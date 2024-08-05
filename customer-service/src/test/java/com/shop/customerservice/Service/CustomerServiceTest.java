@@ -24,6 +24,11 @@ import static org.mockito.Mockito.*;
 class CustomerServiceTest {
 
     private Customer customer;
+    @InjectMocks
+    private CustomerService service;
+    @Mock
+    private CustomerRepository repository;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -43,13 +48,6 @@ class CustomerServiceTest {
                 .favouriteProduct(favouriteProduct)
                 .build();
     }
-
-    @InjectMocks
-    private CustomerService service;
-
-    @Mock
-    private CustomerRepository repository;
-
 
     @Test
     void saveCustomer() {

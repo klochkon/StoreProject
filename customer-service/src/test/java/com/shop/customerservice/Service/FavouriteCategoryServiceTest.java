@@ -1,6 +1,5 @@
 package com.shop.customerservice.Service;
 
-import com.shop.customerservice.CustomerServiceApplication;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -34,8 +33,8 @@ class FavouriteCategoryServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         LocalDate dateOfBirth = LocalDate.of(2020, 8, 2);
-        Set<String> favouriteCategory= Set.of("favouriteCategory");
-        Set<String> favouriteProduct= Set.of("favouriteProduct");
+        Set<String> favouriteCategory = Set.of("favouriteCategory");
+        Set<String> favouriteProduct = Set.of("favouriteProduct");
 
         customer = Customer.builder()
                 .id(1L)

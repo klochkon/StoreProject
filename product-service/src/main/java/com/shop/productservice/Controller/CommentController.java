@@ -2,7 +2,6 @@ package com.shop.productservice.Controller;
 
 import com.shop.productservice.Model.Comment;
 import com.shop.productservice.Service.CommentService;
-import io.lettuce.core.dynamic.annotation.CommandNaming;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

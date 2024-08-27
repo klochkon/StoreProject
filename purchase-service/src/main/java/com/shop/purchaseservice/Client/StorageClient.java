@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@FeignClient(name = "storage-service", url = "http://localhost:8084")
+@FeignClient(name = "storage-service", url = "${url}")
 public interface StorageClient {
 
     @PostMapping("api/v1/storage/order-check")
-    Boolean isOrderInStorage(@RequestBody HashMap<Long, Integer> cart);
+    Boolean isOrderInStorage(@RequestBody Map<Long, Integer> cart);
 
     @GetMapping("api/v1/storage/find/order/out")
     Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<Long, Integer> cart);

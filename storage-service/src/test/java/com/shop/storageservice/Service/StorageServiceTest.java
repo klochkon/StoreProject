@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,7 +32,6 @@ class StorageServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         storage = Storage.builder()
                 .id(1L)
                 .quantity(1)
@@ -76,11 +74,30 @@ class StorageServiceTest {
     void isOrderInStorage() {
         when(service.isInStorage(anyLong(), anyInt())).thenReturn(true);
         Map<Long, Integer> cart = new HashMap<>();
-        cart.put()
-        Boolean testStorage =
+        Boolean answer = service.isOrderInStorage(cart);
+        assertEquals(answer, true);
+        verify(service, times(1)).isInStorage(anyLong(), anyInt());
     }
 
     @Test
-    void findOutOfStorageProduct() {
+    void testFindOutOfStorageProduct() {
+
+        Map<Long, Integer> cart = new HashMap<>();
+        cart.put(1L, 5);
+        cart.put(2L, 10);
+
+
+        when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
+
+        when(service.isInStorage(anyLong(), anyInt())).thenReturn(false);
+
+        Map<String, Integer> result = service.findOutOfStorageProduct(cart);
+
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("name", 1);
+
+        assertEquals(expected, result);
+
+        verify(repository, times(1)).findById(anyLong());
     }
 }

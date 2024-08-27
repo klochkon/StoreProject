@@ -19,11 +19,11 @@ public class PurchaseService {
     public String purchase(Order order) {
         Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append("Order wasn`t reserved, because there are only ");
         if (storageClient.isOrderInStorage(order.getCart())) {
             kafka.send("order-topic", order);
             return "Order was reserved!";
         } else {
+            messageBuilder.append("Order wasn`t reserved, because there are only ");
             for (Map.Entry<String, Integer> entry : outOfStorage.entrySet()) {
                 messageBuilder.append(entry.getValue())
                         .append(" of ")

@@ -12,11 +12,13 @@
         <module name="analytics-service" />
         <module name="product-service" />
         <module name="storage-service" />
-        <module name="main-service" />
         <module name="notification-service" />
         <module name="Microservices" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="main-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

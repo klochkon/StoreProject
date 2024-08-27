@@ -24,12 +24,12 @@ public class StorageController {
     }
 
     @PostMapping("add")
-    public void addProductById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
+    public void addById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
         service.addProductById(addedId, quantityAdded);
     }
 
     @DeleteMapping("delete")
-    public void deleteProductById(@RequestParam Integer quantityDeleted, @RequestParam Long deletedId) {
+    public void deleteById(@RequestParam Integer quantityDeleted, @RequestParam Long deletedId) {
         service.deleteProductById(deletedId, quantityDeleted);
     }
 

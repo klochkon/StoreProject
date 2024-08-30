@@ -1,2 +1,9 @@
 server:
   port: 8082
+spring:
+  mail:
+    port: 587
+#    todo password - app password in google account
+    password: bytemall
+    username: bytemall2024@gmail.com
+    host: smtp.gmail.com

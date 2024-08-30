@@ -2,10 +2,13 @@ package com.shop.purchaseservice.Service;
 
 import com.shop.customerservice.Model.Order;
 import com.shop.purchaseservice.Client.StorageClient;
+import com.shop.purchaseservice.DTO.InventoryStatusDTO;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -16,23 +19,21 @@ public class PurchaseService {
     private final StorageClient storageClient;
     private final KafkaTemplate<String, Order> kafka;
 
-    public String purchase(Order order) {
-        Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
-        StringBuilder messageBuilder = new StringBuilder();
+    public InventoryStatusDTO purchase(Order order) {
+        InventoryStatusDTO dto = new InventoryStatusDTO();
         if (storageClient.isOrderInStorage(order.getCart())) {
             kafka.send("order-topic", order);
-            return "Order was reserved!";
+            dto.setIsOrderInStorage(true);
+            return dto;
         } else {
-            messageBuilder.append("Order wasn`t reserved, because there are only ");
+            Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(order.getCart());
             for (Map.Entry<String, Integer> entry : outOfStorage.entrySet()) {
-                messageBuilder.append(entry.getValue())
-                        .append(" of ")
-                        .append(entry.getKey())
-                        .append(", ");
+                Map<String, Integer> outOfStorageMap = new HashMap<>();
+                outOfStorageMap.put(entry.getKey(), entry.getValue());
+                dto.setOutOfStorageProducts(outOfStorageMap);
             }
-            messageBuilder.setLength(messageBuilder.length() - 2);
         }
-        return messageBuilder.toString();
+        return dto;
     }
 }
 

@@ -48,6 +48,7 @@ public class StorageService {
         return true;
     }
 
+    @Cacheable(value = "storage", key = "#id")
     public Map<String, Integer> findOutOfStorageProduct(Map<Long, Integer> cart) {
         Map<String, Integer> outOfStorageProduct = new HashMap<>();
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {

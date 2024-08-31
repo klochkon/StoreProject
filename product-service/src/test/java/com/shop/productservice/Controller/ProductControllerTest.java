@@ -7,7 +7,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(MockitoExtension.class)
 public class ProductControllerTest {
 
-    private MockMvc
 
 
 

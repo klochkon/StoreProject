@@ -4,6 +4,13 @@ spring:
   mail:
     port: 587
 #    todo password - app password in google account
-    password: bytemall
+    password: jqmj uaow xcab hdep
     username: bytemall2024@gmail.com
     host: smtp.gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+

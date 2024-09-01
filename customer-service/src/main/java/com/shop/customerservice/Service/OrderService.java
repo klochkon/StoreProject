@@ -14,7 +14,7 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    @KafkaListener(topics = "order-topic", groupId = "order")
+    @KafkaListener(topics = "order-topic", groupId = "order-group")
     public Order saveOrder(Order order) {
         return repository.save(order);
     }

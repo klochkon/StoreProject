@@ -17,12 +17,17 @@ import java.util.Map;
 public class PurchaseService {
 
     private final StorageClient storageClient;
-    private final KafkaTemplate<String, Order> kafka;
+    private final KafkaTemplate<String, Order> kafkaAddOrder;
+    private final KafkaTemplate<String, > kafkaMail;
 
     public InventoryStatusDTO purchase(Order order) {
         InventoryStatusDTO dto = new InventoryStatusDTO();
         if (storageClient.isOrderInStorage(order.getCart())) {
-            kafka.send("order-topic", order);
+            kafkaAddOrder.send("order-topic", order);
+            Long customerId = order.getCustomerId();
+
+
+            kafkaMail.send("purchase-mail-topic", );
             dto.setIsOrderInStorage(true);
             return dto;
         } else {

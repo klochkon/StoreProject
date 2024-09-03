@@ -23,9 +23,9 @@ public class StorageService {
         return repository.findById(id).orElse(null);
     }
 
-    @Cacheable(value = "storage", key = "#id")
-    public Boolean isInStorage(Long id, Integer requiredQuantity) {
-        Storage product = repository.findById(id).orElse(null);
+    @Cacheable(value = "storage", key = "#name")
+    public Boolean isInStorage(String name, Integer requiredQuantity) {
+        Storage product = repository.findByName(name);
         return product.getQuantity() >= requiredQuantity;
     }
 
@@ -39,8 +39,8 @@ public class StorageService {
         repository.deleteProductById(deletedId, quantityDeleted);
     }
 
-    public Boolean isOrderInStorage(Map<Long, Integer> cart) {
-        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+    public Boolean isOrderInStorage(Map<String, Integer> cart) {
+        for (Map.Entry<String, Integer> entry : cart.entrySet()) {
             if (!this.isInStorage(entry.getKey(), entry.getValue())) {
                 return false;
             }
@@ -49,11 +49,11 @@ public class StorageService {
     }
 
     @Cacheable(value = "storage", key = "#id")
-    public Map<String, Integer> findOutOfStorageProduct(Map<Long, Integer> cart) {
+    public Map<String, Integer> findOutOfStorageProduct(Map<String, Integer> cart) {
         Map<String, Integer> outOfStorageProduct = new HashMap<>();
-        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+        for (Map.Entry<String, Integer> entry : cart.entrySet()) {
             if (!isInStorage(entry.getKey(), entry.getValue())) {
-                Storage product = repository.findById(entry.getKey()).orElse(null);
+                Storage product = repository.findByName(entry.getKey());
                 outOfStorageProduct.put(product.getName(), product.getQuantity());
             }
         }

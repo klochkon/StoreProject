@@ -50,7 +50,7 @@ class StorageServiceTest {
     @Test
     void isInStorage() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
-        Boolean testStorage = service.isInStorage(storage.getId(), storage.getQuantity());
+        Boolean testStorage = service.isInStorage(storage.getName(), storage.getQuantity());
         assertEquals(testStorage, true);
         verify(repository, times(1)).findById(anyLong());
     }
@@ -72,24 +72,24 @@ class StorageServiceTest {
 
     @Test
     void isOrderInStorage() {
-        when(service.isInStorage(anyLong(), anyInt())).thenReturn(true);
-        Map<Long, Integer> cart = new HashMap<>();
+        when(service.isInStorage(anyString(), anyInt())).thenReturn(true);
+        Map<String, Integer> cart = new HashMap<>();
         Boolean answer = service.isOrderInStorage(cart);
         assertEquals(answer, true);
-        verify(service, times(1)).isInStorage(anyLong(), anyInt());
+        verify(service, times(1)).isInStorage(anyString(), anyInt());
     }
 
     @Test
     void testFindOutOfStorageProduct() {
 
-        Map<Long, Integer> cart = new HashMap<>();
-        cart.put(1L, 5);
-        cart.put(2L, 10);
+        Map<String, Integer> cart = new HashMap<>();
+        cart.put("name1", 5);
+        cart.put("2L", 10);
 
 
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
 
-        when(service.isInStorage(anyLong(), anyInt())).thenReturn(false);
+        when(service.isInStorage(anyString(), anyInt())).thenReturn(false);
 
         Map<String, Integer> result = service.findOutOfStorageProduct(cart);
 

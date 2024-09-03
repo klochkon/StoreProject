@@ -1,5 +1,6 @@
 package com.shop.customerservice.Service;
 
+import com.shop.customerservice.DTO.OrderDTO;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,11 @@ public class OrderService {
     private final OrderRepository repository;
 
     @KafkaListener(topics = "order-topic", groupId = "order-group")
-    public Order saveOrder(Order order) {
+    public Order saveOrder(OrderDTO orderDTO) {
+        Order order = new Order();
+        order.setCart(orderDTO.getCart());
+        order.setId(orderDTO.getId());
+        order.setCustomerId(orderDTO.getCustomerId());
         return repository.save(order);
     }
 

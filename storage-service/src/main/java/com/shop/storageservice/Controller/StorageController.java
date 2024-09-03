@@ -14,8 +14,8 @@ public class StorageController {
     private final StorageService service;
 
     @GetMapping("check")
-    public Boolean isInStorage(@RequestBody Long id, Integer requiredQuantity) {
-        return service.isInStorage(id, requiredQuantity);
+    public Boolean isInStorage(@RequestBody String name, Integer requiredQuantity) {
+        return service.isInStorage(name, requiredQuantity);
     }
 
     @GetMapping("find/{id}")
@@ -34,12 +34,12 @@ public class StorageController {
     }
 
     @GetMapping("order/check")
-    public Boolean isOrderInStorage(@RequestBody Map<Long, Integer> cart) {
+    public Boolean isOrderInStorage(@RequestBody Map<String, Integer> cart) {
         return service.isOrderInStorage(cart);
     }
 
     @GetMapping("find/order/out")
-    public Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<Long, Integer> cart) {
+    public Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<String, Integer> cart) {
         return service.findOutOfStorageProduct(cart);
     }
 

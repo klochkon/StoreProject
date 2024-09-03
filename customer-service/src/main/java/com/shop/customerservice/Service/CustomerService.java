@@ -42,4 +42,10 @@ public class CustomerService {
     }
 
 
+    public String findCustomerEmailById(Long customerId) {
+        Customer customer = repository.findById(customerId).orElse(null);
+        return customer.getEmail();
+    }
+
+
 }

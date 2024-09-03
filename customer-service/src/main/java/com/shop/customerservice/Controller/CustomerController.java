@@ -35,6 +35,11 @@ public class CustomerController {
         return service.findCustomerById(id);
     }
 
+    @GetMapping("find/email/{customerId}")
+    public String findCustomerEmailById(@PathVariable Long customerId) {
+       return service.findCustomerEmailById(customerId);
+    }
+
     @GetMapping("find/all")
     public List<Customer> findAllCustomer() {
         return service.findAllCustomer();

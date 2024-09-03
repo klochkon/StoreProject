@@ -1,6 +1,6 @@
 package com.shop.purchaseservice.DTO;
 
-import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +12,9 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderDTO {
+public class MailDTO {
 
-    private Long id;
-    private Long customerId;
-    private Map<String, Integer> cart;
+    private String email;
+    private Map<String, Object> data;
 }
+

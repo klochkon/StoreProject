@@ -4,6 +4,7 @@ import com.shop.customerservice.Model.Order;
 import com.shop.purchaseservice.Client.CustomerClient;
 import com.shop.purchaseservice.Client.StorageClient;
 import com.shop.purchaseservice.DTO.InventoryStatusDTO;
+import com.shop.purchaseservice.DTO.MailDTO;
 import com.shop.purchaseservice.DTO.OrderDTO;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class PurchaseService {
             String email = customerClient.findCustomerEmailById(customerId);
 
 
-            kafkaMail.send("purchase-mail-topic",  );
+            kafkaMail.send("purchase-mail-topic", mailDTO);
             dto.setIsOrderInStorage(true);
             return dto;
         } else {

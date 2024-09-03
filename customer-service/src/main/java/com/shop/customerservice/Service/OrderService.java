@@ -19,8 +19,8 @@ public class OrderService {
     public Order saveOrder(OrderDTO orderDTO) {
         Order order = new Order();
         order.setCart(orderDTO.getCart());
-        order.setId(orderDTO.getId());
         order.setCustomerId(orderDTO.getCustomerId());
+        order.setCost(orderDTO.getCost());
         return repository.save(order);
     }
 

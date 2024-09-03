@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.StringBufferInputStream;
+import java.math.BigDecimal;
 import java.util.Map;
 
 @NoArgsConstructor
@@ -21,4 +22,5 @@ public class Order {
     private Long id;
     private Long customerId;
     private Map<String, Integer> cart;
+    private BigDecimal cost;
 }

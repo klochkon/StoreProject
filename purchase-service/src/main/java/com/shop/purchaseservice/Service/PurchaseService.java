@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +35,22 @@ public class PurchaseService {
 
             MailDTO mailDTO = new MailDTO();
             Map<String, Object> data = new HashMap<String, Object>();
+            Map<String, Integer> cart = orderDTO.getCart();
+            List<String> listOfProducts = new ArrayList<String>();
+
+            for (Map.Entry<String, Integer> entry : cart.entrySet()) {
+                listOfProducts.add(entry.getKey());
+            }
+
             data.put("Cost", orderDTO.getCost());
-            List<String> listOfProducts = new List<String>();
-            data.put();
+            data.put("ID", orderDTO.getId());
+            data.put("Products", listOfProducts);
 
             mailDTO.setEmail(email);
             mailDTO.setData(data);
 
             kafkaMail.send("purchase-mail-topic", mailDTO);
             dto.setIsOrderInStorage(true);
-            return dto;
         } else {
             Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(orderDTO.getCart());
             for (Map.Entry<String, Integer> entry : outOfStorage.entrySet()) {

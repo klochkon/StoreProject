@@ -18,6 +18,7 @@ public class OrderService {
     @KafkaListener(topics = "order-topic", groupId = "order-group")
     public Order saveOrder(OrderDTO orderDTO) {
         Order order = new Order();
+        order.setId(orderDTO.getId());
         order.setCart(orderDTO.getCart());
         order.setCustomerId(orderDTO.getCustomerId());
         order.setCost(orderDTO.getCost());

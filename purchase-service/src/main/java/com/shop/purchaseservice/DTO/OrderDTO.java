@@ -15,6 +15,7 @@ import java.util.Map;
 @Builder
 public class OrderDTO {
 
+    private Long id;
     private Long customerId;
     private Map<String, Integer> cart;
     private BigDecimal cost;

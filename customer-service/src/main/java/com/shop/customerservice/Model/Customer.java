@@ -1,10 +1,12 @@
 package com.shop.customerservice.Model;
 
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.aspectj.bridge.IMessage;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -22,7 +24,9 @@ public class Customer {
     private String email;
     private String phoneNumber;
     private String nickName;
+    @NotBlank(message = "Name can`t be blank")
     private String name;
+    @NotBlank(message = "Surname can`t be blank")
     private String surname;
     private String sex;
     private LocalDate dateOfBirth;

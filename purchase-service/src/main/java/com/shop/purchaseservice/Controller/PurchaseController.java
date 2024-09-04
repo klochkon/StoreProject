@@ -19,7 +19,7 @@ public class PurchaseController {
     private final PurchaseService service;
 
     @PostMapping("operation")
-    public InventoryStatusDTO purchase(@RequestBody OrderDTO order) {
-        return service.purchase(order);
+    public InventoryStatusDTO purchase(@RequestBody OrderDTO orderDTO) {
+        return service.purchase(orderDTO);
     }
 }

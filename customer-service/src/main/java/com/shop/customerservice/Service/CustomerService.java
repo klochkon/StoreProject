@@ -1,5 +1,6 @@
 package com.shop.customerservice.Service;
 
+import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,14 @@ public class CustomerService {
     }
 
 
-    public String findCustomerEmailById(Long customerId) {
+    public CustomerDTO findCustomerEmailAndNickNameById(Long customerId) {
         Customer customer = repository.findById(customerId).orElse(null);
-        return customer.getEmail();
+        CustomerDTO customerDTO = new CustomerDTO();
+
+        customerDTO.setEmail(customer.getEmail());
+        customerDTO.setNickName(customer.getNickName());
+
+        return customerDTO;
     }
 
 

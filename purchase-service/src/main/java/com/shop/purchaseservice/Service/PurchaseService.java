@@ -2,6 +2,7 @@ package com.shop.purchaseservice.Service;
 
 import com.shop.purchaseservice.Client.CustomerClient;
 import com.shop.purchaseservice.Client.StorageClient;
+import com.shop.purchaseservice.DTO.CustomerDTO;
 import com.shop.purchaseservice.DTO.InventoryStatusDTO;
 import com.shop.purchaseservice.DTO.MailDTO;
 import com.shop.purchaseservice.DTO.OrderDTO;
@@ -31,7 +32,7 @@ public class PurchaseService {
             kafkaAddOrder.send("order-topic", orderDTO);
 
             Long customerId = orderDTO.getCustomerId();
-            String email = customerClient.findCustomerEmailById(customerId);
+            CustomerDTO customerDTO = customerClient.findCustomerEmailAndNickNameById(customerId);
 
             MailDTO mailDTO = new MailDTO();
             Map<String, Object> data = new HashMap<String, Object>();
@@ -45,8 +46,9 @@ public class PurchaseService {
             data.put("Cost", orderDTO.getCost());
             data.put("ID", orderDTO.getId());
             data.put("Products", listOfProducts);
+            data.put("Nickname", customerDTO.getNickName());
 
-            mailDTO.setEmail(email);
+            mailDTO.setEmail(customerDTO.getEmail());
             mailDTO.setData(data);
 
             kafkaMail.send("purchase-mail-topic", mailDTO);

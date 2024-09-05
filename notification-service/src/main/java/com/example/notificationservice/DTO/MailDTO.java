@@ -14,6 +14,6 @@ import java.util.Map;
 @Builder
 public class MailDTO {
 
-    private String email;
+    private String to;
     private Map<String, Object> data;
 }

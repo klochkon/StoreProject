@@ -1,5 +1,6 @@
 package com.example.notificationservice.Service;
 
+import com.example.notificationservice.DTO.MailDTO;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,11 +20,33 @@ public class NotificationService {
     private final JavaMailSender sender;
     private final TemplateEngine templateEngine;
 
-    @Value("${subject}")
-    private String subject;
+    @Value("${subject.purchase}")
+    private String purchaseSubject;
+
+    @Value("${subject.registration}")
+    private String registrationSubject;
+
 
     @KafkaListener(topics = "purchase-mail-topic", groupId = "purchase-mail-group")
-    public void sendPurchaseEmail(String to, Map<String, Object> data) throws jakarta.mail.MessagingException {
+    public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
+
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        Context context = new Context();
+        context.setVariables(mailDTO.getData());
+
+        String html = templateEngine.process("PurchaseMailTemplate", context);
+
+        helper.setTo(mailDTO.getTo());
+        helper.setSubject(purchaseSubject);
+        helper.setText(html, true);
+
+        sender.send(message);
+    }
+
+
+    public void sendRegistrationEmail(String to, Map<String, Object> data) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -31,32 +54,14 @@ public class NotificationService {
         Context context = new Context();
         context.setVariables(data);
 
-        String html = templateEngine.process("PurchaseMailTemplate", context);
+        String html = templateEngine.process("RegistrationMailTemplate", context);
 
         helper.setTo(to);
-        helper.setSubject(subject);
+        helper.setSubject(registrationSubject);
         helper.setText(html, true);
 
         sender.send(message);
     }
-
-
-//    public void sendPurchaseEmail(String to, String subject, Map<String, Object> data) throws jakarta.mail.MessagingException {
-//
-//        MimeMessage message = sender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-//
-//        Context context = new Context();
-//        context.setVariables(data);
-//
-//        String html = templateEngine.process("HTML", context);
-//
-//        helper.setTo(to);
-//        helper.setSubject(subject);
-//        helper.setText(html, true);
-//
-//        sender.send(message);
-//    }
 
 
 

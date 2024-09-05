@@ -1,6 +1,5 @@
 package com.shop.purchaseservice.DTO;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderDTO {
+public class OrderDublicateDTO {
 
     private Long id;
     private Long customerId;

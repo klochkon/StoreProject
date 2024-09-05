@@ -1,5 +1,6 @@
 package com.shop.customerservice.Service;
 
+import com.shop.customerservice.DTO.OrderDublicateDTO;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,24 +30,34 @@ class OrderServiceTest {
     @Mock
     private OrderRepository repository;
 
+    private OrderDublicateDTO orderDublicateDTO;
+
     private Order order;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Map<Long, Integer> cart = new HashMap<>();
-        cart.put(1L, 1);
+        Map<String, Integer> cart = new HashMap<>();
+        cart.put("Name", 1);
         order = Order.builder()
                 .id(1L)
                 .customerId(2L)
                 .cart(cart)
+                .cost(new BigDecimal(1.00))
+                .build();
+
+        orderDublicateDTO = OrderDublicateDTO.builder()
+                .id(order.getId())
+                .customerId(order.getCustomerId())
+                .cart(order.getCart())
+                .cost(order.getCost())
                 .build();
     }
 
     @Test
     void saveOrder() {
         when(repository.save(any(Order.class))).thenReturn(order);
-        Order testOrder = service.saveOrder(order);
+        Order testOrder = service.saveOrder(orderDublicateDTO);
         assertEquals(order, testOrder);
         verify(repository, times(1)).save(any(Order.class));
     }

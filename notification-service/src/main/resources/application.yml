@@ -6,9 +6,13 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: purchase-mail-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumer-groups:
+      purchase-group:
+        group-id: purchase-mail-group
+      registration-group:
+        group-id: registration-mail-group
 
   mail:
     port: 587

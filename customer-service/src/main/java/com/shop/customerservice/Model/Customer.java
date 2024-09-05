@@ -30,6 +30,7 @@ public class Customer {
     private String surname;
     private String sex;
     private LocalDate dateOfBirth;
+    private Boolean newsLetterSubscribe;
 
     private Set<String> favouriteCategory;
     private Set<String> favouriteProduct;

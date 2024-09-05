@@ -2,9 +2,18 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: order-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumer-groups:
+      order-group:
+        group-id: order-group
+      new-product-group:
+        group-id: new-product-group
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+
+
   cache:
     type: redis
     redis:

@@ -4,9 +4,10 @@ import com.example.notificationservice.DTO.MailDTO;
 import com.example.notificationservice.Service.NotificationService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/notification")
@@ -21,8 +22,8 @@ public class NotificationController {
     }
 
     @PostMapping("send/registration/{to}")
-    public void sendRegistrationEmail(@PathVariable String to,@RequestBody Map<String, Object> data) throws MessagingException {
-        service.sendRegistrationEmail(to, data);
+    public void sendRegistrationEmail(@RequestBody MailDTO mailDTO) throws MessagingException {
+        service.sendRegistrationEmail(mailDTO);
     }
 
 

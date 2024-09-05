@@ -15,13 +15,17 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    @KafkaListener(topics = "order-topic", groupId = "order-group")
+    @KafkaListener(topics = "order-topic", groupId = "${spring.kafka.consumer-groups.order-group.group-id}")
     public Order saveOrder(OrderDublicateDTO orderDublicateDTO) {
-        Order order = new Order();
-        order.setId(orderDublicateDTO.getId());
-        order.setCart(orderDublicateDTO.getCart());
-        order.setCustomerId(orderDublicateDTO.getCustomerId());
-        order.setCost(orderDublicateDTO.getCost());
+        Order order;
+
+        order = Order.builder()
+                .id(orderDublicateDTO.getId())
+                .cart(orderDublicateDTO.getCart())
+                .customerId(orderDublicateDTO.getCustomerId())
+                .cost(orderDublicateDTO.getCost())
+                .build();
+
         return repository.save(order);
     }
 

@@ -32,24 +32,27 @@ public class PurchaseService {
             kafkaAddOrder.send("order-topic", orderDublicateDTO);
 
             Long customerId = orderDublicateDTO.getCustomerId();
-            CustomerDTO customerDTO = customerClient.findCustomerEmailAndNickNameById(customerId);
-
-            MailDTO mailDTO = new MailDTO();
-            Map<String, Object> data = new HashMap<String, Object>();
-            Map<String, Integer> cart = orderDublicateDTO.getCart();
+            CustomerDTO customerDTO = customerClient.findCustomerEmailAndNameById(customerId);
             List<String> listOfProducts = new ArrayList<String>();
+
+            Map<String, Object> data = Map.of(
+                    "Cost", orderDublicateDTO.getCost(),
+                    "ID", orderDublicateDTO.getId(),
+                    "Products", listOfProducts,
+                    "Name", customerDTO.getName()
+            );
+
+            Map<String, Integer> cart = orderDublicateDTO.getCart();
 
             for (Map.Entry<String, Integer> entry : cart.entrySet()) {
                 listOfProducts.add(entry.getKey());
             }
 
-            data.put("Cost", orderDublicateDTO.getCost());
-            data.put("ID", orderDublicateDTO.getId());
-            data.put("Products", listOfProducts);
-            data.put("Nickname", customerDTO.getNickName());
-
-            mailDTO.setEmail(customerDTO.getEmail());
-            mailDTO.setData(data);
+            MailDTO mailDTO;
+            mailDTO = MailDTO.builder()
+                    .to(customerDTO.getEmail())
+                    .data(data)
+                    .build();
 
             kafkaMail.send("purchase-mail-topic", mailDTO);
             dto.setIsOrderInStorage(true);

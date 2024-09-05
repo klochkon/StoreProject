@@ -4,6 +4,7 @@ import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.DTO.MailDTO;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,7 +12,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,18 @@ public class CustomerService {
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
     public Customer saveCustomer(Customer customer) {
 
+        Map<String, Object> data = Map.of(
+                "Email", customer.getEmail(),
+                "Name", customer.getName()
+        );
+
+        MailDTO mailDTO;
+        mailDTO = MailDTO.builder()
+                .to(customer.getEmail())
+                .data(data)
+                .build();
+
+        kafkaRegistration.send("registration-mail-topic", mailDTO);
         return repository.save(customer);
     }
 
@@ -47,12 +62,12 @@ public class CustomerService {
     }
 
 
-    public CustomerDTO findCustomerEmailAndNickNameById(Long customerId) {
+    public CustomerDTO findCustomerEmailAndNameById(Long customerId) {
         Customer customer = repository.findById(customerId).orElse(null);
         CustomerDTO customerDTO = new CustomerDTO();
 
         customerDTO.setEmail(customer.getEmail());
-        customerDTO.setNickName(customer.getNickName());
+        customerDTO.setName(customer.getName());
 
         return customerDTO;
     }

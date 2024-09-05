@@ -37,8 +37,8 @@ public class CustomerController {
     }
 
     @GetMapping("find/customerDTO/{customerId}")
-    public CustomerDTO findCustomerEmailAndNickNameById(@PathVariable Long customerId) {
-       return service.findCustomerEmailAndNickNameById(customerId);
+    public CustomerDTO findCustomerEmailAndNameById(@PathVariable Long customerId) {
+       return service.findCustomerEmailAndNameById(customerId);
     }
 
     @GetMapping("find/all")

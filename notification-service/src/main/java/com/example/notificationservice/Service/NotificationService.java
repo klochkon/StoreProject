@@ -27,7 +27,7 @@ public class NotificationService {
     private String registrationSubject;
 
 
-    @KafkaListener(topics = "purchase-mail-topic", groupId = "purchase-mail-group")
+    @KafkaListener(topics = "purchase-mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
     public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
@@ -38,6 +38,7 @@ public class NotificationService {
 
         String html = templateEngine.process("PurchaseMailTemplate", context);
 
+
         helper.setTo(mailDTO.getTo());
         helper.setSubject(purchaseSubject);
         helper.setText(html, true);
@@ -45,18 +46,18 @@ public class NotificationService {
         sender.send(message);
     }
 
-
-    public void sendRegistrationEmail(String to, Map<String, Object> data) throws jakarta.mail.MessagingException {
+    @KafkaListener(topics = "registration-mail-topic", groupId = "${spring.kafka.consumer-groups.registration-group.group-id}")
+    public void sendRegistrationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         Context context = new Context();
-        context.setVariables(data);
+        context.setVariables(mailDTO.getData());
 
         String html = templateEngine.process("RegistrationMailTemplate", context);
 
-        helper.setTo(to);
+        helper.setTo(mailDTO.getTo());
         helper.setSubject(registrationSubject);
         helper.setText(html, true);
 

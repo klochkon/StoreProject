@@ -1,6 +1,6 @@
 package com.shop.customerservice.Service;
 
-import com.shop.customerservice.DTO.OrderDublicateDTO;
+import com.shop.customerservice.DTO.OrderDuplicateDTO;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ class OrderServiceTest {
     @Mock
     private OrderRepository repository;
 
-    private OrderDublicateDTO orderDublicateDTO;
+    private OrderDuplicateDTO orderDuplicateDTO;
 
     private Order order;
 
@@ -46,7 +46,7 @@ class OrderServiceTest {
                 .cost(new BigDecimal(1.00))
                 .build();
 
-        orderDublicateDTO = OrderDublicateDTO.builder()
+        orderDuplicateDTO = OrderDuplicateDTO.builder()
                 .id(order.getId())
                 .customerId(order.getCustomerId())
                 .cart(order.getCart())
@@ -57,7 +57,7 @@ class OrderServiceTest {
     @Test
     void saveOrder() {
         when(repository.save(any(Order.class))).thenReturn(order);
-        Order testOrder = service.saveOrder(orderDublicateDTO);
+        Order testOrder = service.saveOrder(orderDuplicateDTO);
         assertEquals(order, testOrder);
         verify(repository, times(1)).save(any(Order.class));
     }

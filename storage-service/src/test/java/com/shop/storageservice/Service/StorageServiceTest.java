@@ -1,5 +1,6 @@
 package com.shop.storageservice.Service;
 
+import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Repository.StorageRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +25,8 @@ class StorageServiceTest {
 
     private Storage storage;
 
+    private ProductDuplicateDTO productDuplicateDTO;
+
     @Spy
     @InjectMocks
     private StorageService service;
@@ -32,10 +36,23 @@ class StorageServiceTest {
 
     @BeforeEach
     void setUp() {
+        Map<ProductDuplicateDTO, Integer> cart = new HashMap<>();
+        ProductDuplicateDTO productDuplicateDTO;
+        productDuplicateDTO = ProductDuplicateDTO.builder()
+                .id(1L)
+                .cost(new BigDecimal(100.00))
+                .category("Category")
+                .description("Description")
+                .feedBack(4.2)
+                .name("Name")
+                .producer("Producer")
+                .build();
+
+        cart.put(productDuplicateDTO, 5);
+
         storage = Storage.builder()
                 .id(1L)
                 .quantity(1)
-                .name("name")
                 .build();
     }
 
@@ -50,7 +67,7 @@ class StorageServiceTest {
     @Test
     void isInStorage() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
-        Boolean testStorage = service.isInStorage(storage.getName(), storage.getQuantity());
+        Boolean testStorage = service.isInStorage(storage.getId(), storage.getQuantity());
         assertEquals(testStorage, true);
         verify(repository, times(1)).findById(anyLong());
     }
@@ -72,26 +89,21 @@ class StorageServiceTest {
 
     @Test
     void isOrderInStorage() {
-        when(service.isInStorage(anyString(), anyInt())).thenReturn(true);
-        Map<String, Integer> cart = new HashMap<>();
+        when(service.isInStorage(anyLong(), anyInt())).thenReturn(true);
+        Map<ProductDuplicateDTO, Integer> cart = new HashMap<>();
         Boolean answer = service.isOrderInStorage(cart);
         assertEquals(answer, true);
-        verify(service, times(1)).isInStorage(anyString(), anyInt());
+        verify(service, times(1)).isInStorage(anyLong(), anyInt());
     }
 
     @Test
     void testFindOutOfStorageProduct() {
 
-        Map<String, Integer> cart = new HashMap<>();
-        cart.put("name1", 5);
-        cart.put("2L", 10);
-
-
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
 
-        when(service.isInStorage(anyString(), anyInt())).thenReturn(false);
+        when(service.isInStorage(anyLong(), anyInt())).thenReturn(false);
 
-        Map<String, Integer> result = service.findOutOfStorageProduct(cart);
+        Map<ProductDuplicateDTO, Integer> result = service.findOutOfStorageProduct(cart);
 
         Map<String, Integer> expected = new HashMap<>();
         expected.put("name", 1);

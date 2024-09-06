@@ -23,6 +23,4 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
             "WHERE id = deletedId",
             nativeQuery = true)
     void deleteProductById(Long deletedId, Integer quantityDeleted);
-
-    Storage findByName(String name);
 }

@@ -2,10 +2,7 @@ package com.shop.purchaseservice.Service;
 
 import com.shop.purchaseservice.Client.CustomerClient;
 import com.shop.purchaseservice.Client.StorageClient;
-import com.shop.purchaseservice.DTO.CustomerDTO;
-import com.shop.purchaseservice.DTO.InventoryStatusDTO;
-import com.shop.purchaseservice.DTO.MailDTO;
-import com.shop.purchaseservice.DTO.OrderDublicateDTO;
+import com.shop.purchaseservice.DTO.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -21,31 +18,33 @@ import java.util.Map;
 public class PurchaseService {
 
     private final StorageClient storageClient;
-    private final KafkaTemplate<String, OrderDublicateDTO> kafkaAddOrder;
+    private final KafkaTemplate<String, OrderDuplicateDTO> kafkaAddOrder;
     private final KafkaTemplate<String, MailDTO> kafkaMail;
     private final CustomerClient customerClient;
 
-    public InventoryStatusDTO purchase(OrderDublicateDTO orderDublicateDTO) {
-        InventoryStatusDTO dto = new InventoryStatusDTO();
-        if (storageClient.isOrderInStorage(orderDublicateDTO.getCart())) {
+    public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {
+        InventoryStatusDTO inventoryStatusDTO = new InventoryStatusDTO();
+        if (storageClient.isOrderInStorage(orderDuplicateDTO.getCart())) {
 
-            kafkaAddOrder.send("order-topic", orderDublicateDTO);
+            kafkaAddOrder.send("order-topic", orderDuplicateDTO);
 
-            Long customerId = orderDublicateDTO.getCustomerId();
+            customerClient.cleanCart(orderDuplicateDTO.getCustomerId());
+
+            Long customerId = orderDuplicateDTO.getCustomerId();
             CustomerDTO customerDTO = customerClient.findCustomerEmailAndNameById(customerId);
-            List<String> listOfProducts = new ArrayList<String>();
+            List<String> listOfProducts = new ArrayList<>();
 
             Map<String, Object> data = Map.of(
-                    "Cost", orderDublicateDTO.getCost(),
-                    "ID", orderDublicateDTO.getId(),
+                    "Cost", orderDuplicateDTO.getCost(),
+                    "ID", orderDuplicateDTO.getId(),
                     "Products", listOfProducts,
                     "Name", customerDTO.getName()
             );
 
-            Map<String, Integer> cart = orderDublicateDTO.getCart();
+            Map<ProductDuplicateDTO, Integer> cart = orderDuplicateDTO.getCart();
 
-            for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-                listOfProducts.add(entry.getKey());
+            for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
+                listOfProducts.add(entry.getKey().getName());
             }
 
             MailDTO mailDTO;
@@ -55,16 +54,16 @@ public class PurchaseService {
                     .build();
 
             kafkaMail.send("purchase-mail-topic", mailDTO);
-            dto.setIsOrderInStorage(true);
+            inventoryStatusDTO.setIsOrderInStorage(true);
         } else {
-            Map<String, Integer> outOfStorage = storageClient.findOutOfStorageProduct(orderDublicateDTO.getCart());
-            for (Map.Entry<String, Integer> entry : outOfStorage.entrySet()) {
-                Map<String, Integer> outOfStorageMap = new HashMap<>();
+            Map<ProductDuplicateDTO, Integer> outOfStorage = storageClient.findOutOfStorageProduct(orderDuplicateDTO.getCart());
+            for (Map.Entry<ProductDuplicateDTO, Integer> entry : outOfStorage.entrySet()) {
+                Map<ProductDuplicateDTO, Integer> outOfStorageMap = new HashMap<>();
                 outOfStorageMap.put(entry.getKey(), entry.getValue());
-                dto.setOutOfStorageProducts(outOfStorageMap);
+                inventoryStatusDTO.setOutOfStorageProducts(outOfStorageMap);
             }
         }
-        return dto;
+        return inventoryStatusDTO;
     }
 }
 

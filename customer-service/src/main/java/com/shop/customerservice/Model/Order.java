@@ -1,5 +1,6 @@
 package com.shop.customerservice.Model;
 
+import com.shop.customerservice.DTO.ProductDuplicateDTO;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,6 @@ public class Order {
     @Id
     private Long id;
     private Long customerId;
-    private Map<String, Integer> cart;
+    private Map<ProductDuplicateDTO, Integer> cart;
     private BigDecimal cost;
 }

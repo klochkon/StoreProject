@@ -12,10 +12,10 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 @Builder
-public class OrderDublicateDTO {
+public class OrderDuplicateDTO {
 
     private Long id;
     private Long customerId;
-    private Map<String, Integer> cart;
+    private Map<ProductDuplicateDTO, Integer> cart;
     private BigDecimal cost;
 }

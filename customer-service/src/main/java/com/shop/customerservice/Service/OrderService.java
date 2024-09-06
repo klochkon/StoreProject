@@ -1,6 +1,6 @@
 package com.shop.customerservice.Service;
 
-import com.shop.customerservice.DTO.OrderDublicateDTO;
+import com.shop.customerservice.DTO.OrderDuplicateDTO;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,14 @@ public class OrderService {
     private final OrderRepository repository;
 
     @KafkaListener(topics = "order-topic", groupId = "${spring.kafka.consumer-groups.order-group.group-id}")
-    public Order saveOrder(OrderDublicateDTO orderDublicateDTO) {
+    public Order saveOrder(OrderDuplicateDTO orderDuplicateDTO) {
         Order order;
 
         order = Order.builder()
-                .id(orderDublicateDTO.getId())
-                .cart(orderDublicateDTO.getCart())
-                .customerId(orderDublicateDTO.getCustomerId())
-                .cost(orderDublicateDTO.getCost())
+                .id(orderDuplicateDTO.getId())
+                .cart(orderDuplicateDTO.getCart())
+                .customerId(orderDuplicateDTO.getCustomerId())
+                .cost(orderDuplicateDTO.getCost())
                 .build();
 
         return repository.save(order);

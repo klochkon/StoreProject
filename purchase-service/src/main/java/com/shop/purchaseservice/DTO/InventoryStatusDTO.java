@@ -12,7 +12,7 @@ import java.util.Map;
 public class InventoryStatusDTO {
 
     private Boolean isOrderInStorage;
-    private Map<String ,Integer> outOfStorageProducts;
+    private Map<ProductDuplicateDTO, Integer> outOfStorageProducts;
 
 
 

@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class Product {
     private Long id;
 
     private String description;
-    private Long cost;
+    private BigDecimal cost;
     private String name;
     private String producer;
     private String category;
@@ -38,8 +39,6 @@ public class Product {
 
     @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comment;
-
-
 }
 
 

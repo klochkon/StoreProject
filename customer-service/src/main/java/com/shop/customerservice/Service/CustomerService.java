@@ -2,17 +2,20 @@ package com.shop.customerservice.Service;
 
 import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.DTO.MailDTO;
+import com.shop.customerservice.DTO.ProductDuplicateDTO;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,7 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final KafkaTemplate<String, MailDTO> kafkaRegistration;
+    private final MongoTemplate mongoTemplate;
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
     public Customer saveCustomer(Customer customer) {
@@ -72,5 +76,10 @@ public class CustomerService {
         return customerDTO;
     }
 
+    public void cleanCart(String id) {
+        Query query = new Query(Criteria.where("id").is(id));
+        Update update = new Update().set("cart", Map.of());
+        mongoTemplate.updateFirst(query, update, "customer");
 
+    }
 }

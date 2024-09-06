@@ -45,4 +45,7 @@ public class CustomerController {
     public List<Customer> findAllCustomer() {
         return service.findAllCustomer();
     }
+
+    @PutMapping("clean/cart/{id}")
+    public void cleanCart(@PathVariable String id) {service.cleanCart(id);}
 }

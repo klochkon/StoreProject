@@ -1,5 +1,6 @@
 package com.shop.storageservice.Controller;
 
+import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Service.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,8 @@ public class StorageController {
     private final StorageService service;
 
     @GetMapping("check")
-    public Boolean isInStorage(@RequestBody String name, Integer requiredQuantity) {
-        return service.isInStorage(name, requiredQuantity);
+    public Boolean isInStorage(@RequestParam Long id,@RequestParam Integer requiredQuantity) {
+        return service.isInStorage(id, requiredQuantity);
     }
 
     @GetMapping("find/{id}")
@@ -34,12 +35,12 @@ public class StorageController {
     }
 
     @GetMapping("order/check")
-    public Boolean isOrderInStorage(@RequestBody Map<String, Integer> cart) {
+    public Boolean isOrderInStorage(@RequestBody Map<ProductDuplicateDTO, Integer> cart) {
         return service.isOrderInStorage(cart);
     }
 
     @GetMapping("find/order/out")
-    public Map<String, Integer> findOutOfStorageProduct(@RequestBody Map<String, Integer> cart) {
+    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(@RequestBody Map<ProductDuplicateDTO, Integer> cart) {
         return service.findOutOfStorageProduct(cart);
     }
 

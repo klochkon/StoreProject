@@ -1,5 +1,6 @@
 package com.shop.storageservice.Service;
 
+import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Repository.StorageRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,9 @@ public class StorageService {
         return repository.findById(id).orElse(null);
     }
 
-    @Cacheable(value = "storage", key = "#name")
-    public Boolean isInStorage(String name, Integer requiredQuantity) {
-        Storage product = repository.findByName(name);
+    @Cacheable(value = "is-in-storage", key = "#id")
+    public Boolean isInStorage(Long id, Integer requiredQuantity) {
+        Storage product = repository.findById(id).orElse(null);
         return product.getQuantity() >= requiredQuantity;
     }
 
@@ -39,22 +40,21 @@ public class StorageService {
         repository.deleteProductById(deletedId, quantityDeleted);
     }
 
-    public Boolean isOrderInStorage(Map<String, Integer> cart) {
-        for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-            if (!this.isInStorage(entry.getKey(), entry.getValue())) {
+    public Boolean isOrderInStorage(Map<ProductDuplicateDTO, Integer> cart) {
+        for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
+            if (!this.isInStorage(entry.getKey().getId(), entry.getValue())) {
                 return false;
             }
         }
         return true;
     }
 
-    @Cacheable(value = "storage", key = "#id")
-    public Map<String, Integer> findOutOfStorageProduct(Map<String, Integer> cart) {
-        Map<String, Integer> outOfStorageProduct = new HashMap<>();
-        for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-            if (!isInStorage(entry.getKey(), entry.getValue())) {
-                Storage product = repository.findByName(entry.getKey());
-                outOfStorageProduct.put(product.getName(), product.getQuantity());
+    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(Map<ProductDuplicateDTO, Integer> cart) {
+        Map<ProductDuplicateDTO, Integer> outOfStorageProduct = new HashMap<>();
+        for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
+            if (!isInStorage(entry.getKey().getId(), entry.getValue())) {
+                Storage product = repository.findById(entry.getKey().getId()).orElse(null);
+                outOfStorageProduct.put(entry.getKey(), product.getQuantity());
             }
         }
         return outOfStorageProduct;

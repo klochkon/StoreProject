@@ -1,5 +1,6 @@
 package com.shop.storageservice.Controller;
 
+import com.shop.storageservice.DTO.OrderDuplicateDTO;
 import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Service.StorageService;
@@ -19,10 +20,19 @@ public class StorageController {
         return service.isInStorage(id, requiredQuantity);
     }
 
+    @PostMapping("save/{quantity}")
+    public void saveProduct(@PathVariable Integer quantity,
+                            @RequestBody ProductDuplicateDTO productDuplicateDTO) {
+        service.saveProduct(quantity, productDuplicateDTO);
+    }
+
     @GetMapping("find/{id}")
     public Storage findById(@PathVariable Long id) {
         return service.findById(id);
     }
+
+    @DeleteMapping("delete/{id}")
+    public void deleteById(@PathVariable Long id) {service.deleteById(id);}
 
     @PostMapping("add")
     public void addById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
@@ -30,8 +40,8 @@ public class StorageController {
     }
 
     @DeleteMapping("delete")
-    public void deleteById(@RequestParam Integer quantityDeleted, @RequestParam Long deletedId) {
-        service.deleteProductById(deletedId, quantityDeleted);
+    public void deleteById(@RequestBody OrderDuplicateDTO orderDuplicateDTO) {
+        service.deleteProductById(orderDuplicateDTO);
     }
 
     @GetMapping("order/check")

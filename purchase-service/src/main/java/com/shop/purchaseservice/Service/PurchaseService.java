@@ -6,6 +6,7 @@ import com.shop.purchaseservice.DTO.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class PurchaseService {
     private final KafkaTemplate<String, MailDTO> kafkaMail;
     private final CustomerClient customerClient;
 
+    @Transactional
     public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {
         InventoryStatusDTO inventoryStatusDTO = new InventoryStatusDTO();
         if (storageClient.isOrderInStorage(orderDuplicateDTO.getCart())) {

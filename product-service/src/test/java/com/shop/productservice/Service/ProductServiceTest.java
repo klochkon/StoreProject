@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class ProductServiceTest {
         product = Product.builder()
                 .id(1L)
                 .category("category")
-                .cost(1L)
+                .cost(new BigDecimal(100.00))
                 .name("name")
                 .producer("producer")
                 .description("description")

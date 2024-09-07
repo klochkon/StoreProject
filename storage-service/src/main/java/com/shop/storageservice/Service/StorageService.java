@@ -1,12 +1,16 @@
 package com.shop.storageservice.Service;
 
+import com.shop.storageservice.DTO.OrderDuplicateDTO;
 import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Repository.StorageRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,6 +22,25 @@ import java.util.Map;
 public class StorageService {
 
     private final StorageRepository repository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @CachePut(value = "storage")
+    public void saveProduct(Integer quantity, ProductDuplicateDTO productDuplicateDTO) {
+        Storage storage;
+        storage = Storage.builder()
+                .id(productDuplicateDTO.getId())
+                .quantity(quantity)
+                .build();
+        repository.save(storage);
+    }
+
+
+    @CacheEvict(value = "storage", key = "#id")
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
     @Cacheable(value = "storage", key = "#id")
     public Storage findById(Long id) {
@@ -35,9 +58,19 @@ public class StorageService {
         repository.addProductById(addedId, quantityAdded);
     }
 
-    @CacheEvict(value = "storage", key = "#deletedId")
-    public void deleteProductById(Long deletedId, Integer quantityDeleted) {
-        repository.deleteProductById(deletedId, quantityDeleted);
+    @KafkaListener(topics = "order-topic", groupId = "${spring.kafka.consumer-groups.order-group.group-id}")
+    @CacheEvict(value = "storage")
+    public void deleteProductById(OrderDuplicateDTO orderDuplicateDTO) {
+        for (Map.Entry<ProductDuplicateDTO, Integer> entry : orderDuplicateDTO.getCart().entrySet()) {
+            entityManager.createNativeQuery("UPDATE storage " +
+                    "SET quantity = quantity - :deletedQuantity " +
+                    "WHERE id = :id")
+                    .setParameter("deletedQuantity", entry.getValue())
+                    .setParameter("id", entry.getKey().getId())
+                    .executeUpdate();
+        entityManager.flush();
+        entityManager.clear();
+        }
     }
 
     public Boolean isOrderInStorage(Map<ProductDuplicateDTO, Integer> cart) {

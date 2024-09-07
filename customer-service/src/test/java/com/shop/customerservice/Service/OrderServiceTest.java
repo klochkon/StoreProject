@@ -1,6 +1,7 @@
 package com.shop.customerservice.Service;
 
 import com.shop.customerservice.DTO.OrderDuplicateDTO;
+import com.shop.customerservice.DTO.ProductDuplicateDTO;
 import com.shop.customerservice.Model.Order;
 import com.shop.customerservice.Repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,9 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Map<String, Integer> cart = new HashMap<>();
+        Map<ProductDuplicateDTO, Integer> cart = new HashMap<>();
+
+
         cart.put("Name", 1);
         order = Order.builder()
                 .id(1L)

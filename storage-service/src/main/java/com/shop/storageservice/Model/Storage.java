@@ -1,8 +1,6 @@
 package com.shop.storageservice.Model;
 
-import com.shop.storageservice.DTO.ProductDuplicateDTO;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Storage {
 
     @Id
-//    id - id in ProductDuplicateDTO
+//    id - id of ProductDuplicateDTO
     private Long id;
     private Integer quantity;
 }

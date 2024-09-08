@@ -1,6 +1,9 @@
 spring:
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -9,7 +12,7 @@ spring:
         group-id: order-group
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/Storage
+    url: jdbc:postgresql://localhost:5432/storage
     password: klochko_08
     username: postgres
     driver-class-name: org.postgresql.Driver
@@ -36,3 +39,6 @@ spring:
 
 server:
   port: 8084
+
+url:
+  productClient: "http://localhost:8083"

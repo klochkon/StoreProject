@@ -26,6 +26,13 @@ public class StorageController {
         service.saveProduct(quantity, productDuplicateDTO);
     }
 
+    @PutMapping("save/{quantity}")
+    public void updateProduct(@PathVariable Integer quantity,
+                            @RequestBody ProductDuplicateDTO productDuplicateDTO) {
+        service.updateProduct(quantity, productDuplicateDTO);
+    }
+
+
     @GetMapping("find/{id}")
     public Storage findById(@PathVariable Long id) {
         return service.findById(id);

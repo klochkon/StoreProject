@@ -59,7 +59,7 @@ class StorageServiceTest {
     @Test
     void findById() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
-        Storage testStorage = service.findById(storage.getId());
+        Storage testStorage = service.findById(storage.getProductId());
         assertEquals(storage, testStorage);
         verify(repository, times(1)).findById(anyLong());
     }
@@ -67,7 +67,7 @@ class StorageServiceTest {
     @Test
     void isInStorage() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(storage));
-        Boolean testStorage = service.isInStorage(storage.getId(), storage.getQuantity());
+        Boolean testStorage = service.isInStorage(storage.getProductId(), storage.getQuantity());
         assertEquals(testStorage, true);
         verify(repository, times(1)).findById(anyLong());
     }
@@ -75,7 +75,7 @@ class StorageServiceTest {
     @Test
     void addProductById() {
         doNothing().when(repository).addProductById(anyLong(), anyInt());
-        service.addProductById(storage.getId(), storage.getQuantity());
+        service.addProductById(storage.getProductId(), storage.getQuantity());
         verify(repository, times(1)).addProductById(anyLong(), anyInt());
 
     }

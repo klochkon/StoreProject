@@ -61,14 +61,14 @@ public class ProductServiceTest {
                 .build();
     }
 
-    @Test
-    void getAllProduct() {
-        List<Product> products = List.of(product);
-        when(repository.findAll()).thenReturn(products);
-        List<Product> testProducts = service.getAllProduct();
-        assertEquals(products, testProducts);
-        verify(repository, times(1)).findAll();
-    }
+//    @Test
+//    void getAllProduct() {
+//        List<Product> products = List.of(product);
+//        when(repository.findAll()).thenReturn(products);
+//        List<Product> testProducts = service.getAllProduct();
+//        assertEquals(products, testProducts);
+//        verify(repository, times(1)).findAll();
+//    }
 
     @Test
     void createProduct() {

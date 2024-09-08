@@ -5,6 +5,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringDeserializer
       value-serializer: org.apache.kafka.common.serialization.StringDeserializer
 
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    consumer-groups:
+        product-name-identifier-group:
+        group-id: product-name-identifier-group
   datasource:
     url: jdbc:postgresql://localhost:5432/Product
     password: klochko_08

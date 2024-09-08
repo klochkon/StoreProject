@@ -18,6 +18,6 @@ public class Storage {
 
     @Id
 //    id - id of ProductDuplicateDTO
-    private Long id;
+    private Long productId;
     private Integer quantity;
 }

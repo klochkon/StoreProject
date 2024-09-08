@@ -1,9 +1,21 @@
 server:
   port: 8082
+
 spring:
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumer-groups:
+      purchase-group:
+        group-id: purchase-mail-group
+      registration-group:
+        group-id: registration-mail-group
+
   mail:
     port: 587
-#    todo password - app password in google account
     password: jqmj uaow xcab hdep
     username: bytemall2024@gmail.com
     host: smtp.gmail.com
@@ -14,3 +26,6 @@ spring:
           starttls:
             enable: true
 
+subject:
+  purchase: "Thank you for your purchase!"
+  registration: "Thank you for your registration"

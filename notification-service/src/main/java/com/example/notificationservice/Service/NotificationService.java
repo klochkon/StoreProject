@@ -26,6 +26,13 @@ public class NotificationService {
     @Value("${subject.registration}")
     private String registrationSubject;
 
+    @Value("${subject.verification}")
+    private String verificationSubject;
+
+    @Value("${admin.storage.email}")
+    private String storageAdminEmail;
+
+//    TODO HTML
 
     @KafkaListener(topics = "purchase-mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
     public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
@@ -63,4 +70,35 @@ public class NotificationService {
 
         sender.send(message);
     }
+
+    @KafkaListener(topics = "kafka-verification-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
+    public void sendProductVerificationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
+
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        Context context = new Context();
+        context.setVariables(mailDTO.getData());
+
+        String html = templateEngine.process("RegistrationMailTemplate", context);
+
+        helper.setTo(storageAdminEmail);
+        helper.setSubject(verificationSubject);
+        helper.setText(html, true);
+
+        sender.send(message);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

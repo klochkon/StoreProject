@@ -13,6 +13,8 @@ spring:
         group-id: purchase-mail-group
       registration-group:
         group-id: registration-mail-group
+      product-verification-group:
+       group-id: product-verification-group
 
   mail:
     port: 587
@@ -28,4 +30,9 @@ spring:
 
 subject:
   purchase: "Thank you for your purchase!"
-  registration: "Thank you for your registration"
+  registration: "Thank you for your registration!"
+  verification: "Lack of products in the storage!"
+
+admin:
+  storage:
+    email: #todo email

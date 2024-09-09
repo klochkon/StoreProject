@@ -76,7 +76,6 @@ public class StorageService {
         repository.deleteById(id);
     }
 
-//    todo verification
     @Scheduled(cron = "0 0 7 * * ?")
     public void productVerification() {
         List<Storage> allProducts= repository.findAll();

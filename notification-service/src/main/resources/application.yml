@@ -18,7 +18,7 @@ spring:
 
   mail:
     port: 587
-    password: jqmj uaow xcab hdep
+    password: "jqmj uaow xcab hdep"
     username: bytemall2024@gmail.com
     host: smtp.gmail.com
     properties:
@@ -33,6 +33,12 @@ subject:
   registration: "Thank you for your registration!"
   verification: "Lack of products in the storage!"
 
-admin:
-  storage:
-    email: #todo email
+admins:
+  storage-role:
+    email: "bytemalloperator4@gmail.com"
+  other:
+    byte-mall-operator1: "bytemalloperator1@gmail.com"
+    byte-mall-operator2: "bytemalloperator2@gmail.com"
+    byte-mall-operator3: "bytemalloperator3@gmail.com"
+
+

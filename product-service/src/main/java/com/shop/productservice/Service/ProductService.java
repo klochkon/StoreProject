@@ -54,7 +54,6 @@ public class ProductService {
         return resultList;
     }
 
-    //    todo method
     @KafkaListener(topics = "product-name-identifier-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
     public void nameIdentifier(List<StorageDuplicateDTO> productsWithLack) {
         MailDTO mailDTO = new MailDTO();

@@ -57,7 +57,8 @@ public class StorageController {
     }
 
     @GetMapping("find/order/out")
-    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(@RequestBody Map<ProductDuplicateDTO, Integer> cart) {
+    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(
+            @RequestBody Map<ProductDuplicateDTO, Integer> cart) {
         return service.findOutOfStorageProduct(cart);
     }
 

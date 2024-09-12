@@ -26,5 +26,11 @@ public class NotificationController {
         service.sendRegistrationEmail(mailDTO);
     }
 
+    @PostMapping("send/verification")
+    public void sendProductVerificationEmail(@RequestBody MailDTO mailDTO) throws MessagingException {
+        service.sendProductVerificationEmail(mailDTO);}
 
+    @PostMapping("send/storage/update")
+    public void sendUpdateStorageEmail(@RequestBody MailDTO mailDTO) throws MessagingException {
+        service.sendUpdateStorageEmail(mailDTO);}
 }

@@ -42,3 +42,4 @@ server:
 
 url:
   productClient: "http://localhost:8083"
+  customerClient: "http://localhost:8081"

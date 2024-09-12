@@ -1,5 +1,6 @@
 package com.shop.storageservice.Service;
 
+import com.shop.storageservice.Client.CustomerClient;
 import com.shop.storageservice.Client.ProductClient;
 import com.shop.storageservice.DTO.*;
 import com.shop.storageservice.Model.Storage;
@@ -29,13 +30,14 @@ public class StorageService {
     private final KafkaTemplate<String, List<StorageDuplicateDTO>> kafkaProductVerification;
 
     private final StorageRepository repository;
+    private final CustomerClient customerClient;
     private final ProductClient productClient;
     private Map<Long, Long> outMapWithId = new HashMap<>();
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @CachePut(value = "storage", key = "#addedId")
+    @CachePut(value = "storage", key = "#productDuplicateDTO.id")
     public void addProductById(ProductDuplicateDTO productDuplicateDTO, Integer quantityAdded) {
         repository.addProductById(productDuplicateDTO.getId(), quantityAdded);
         Map<Long, String> productsWasOutMap = new HashMap<>();
@@ -43,8 +45,8 @@ public class StorageService {
             if (entry.getKey().equals(productDuplicateDTO.getId())) {
                 productsWasOutMap.put(entry.getValue(), productDuplicateDTO.getName());
             }
+            customerClient.customerIdentify(productsWasOutMap);
         }
-
     }
 
     @CachePut(value = "storage", key = "#productDuplicateDTO.id")

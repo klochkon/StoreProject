@@ -27,6 +27,7 @@ public class NotificationService {
     @Value("${subject.verification}")
     private String verificationSubject;
 
+//    todo
     @Value("${admin.storage.email}")
     private String storageAdminEmail;
 
@@ -87,5 +88,21 @@ public class NotificationService {
         sender.send(message);
     }
 
+    public void sendUpdateStorageEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        Context context = new Context();
+        context.setVariables(mailDTO.getData());
+
+        String html = templateEngine.process("RegistrationMailTemplate", context);
+
+        helper.setTo(storageAdminEmail);
+        helper.setSubject(verificationSubject);
+        helper.setText(html, true);
+
+        sender.send(message);
+
+    }
 
 }

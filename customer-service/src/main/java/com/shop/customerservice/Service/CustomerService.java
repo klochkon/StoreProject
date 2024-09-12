@@ -1,5 +1,6 @@
 package com.shop.customerservice.Service;
 
+import com.shop.customerservice.Client.NotificationClient;
 import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.DTO.MailDTO;
 import com.shop.customerservice.Model.Customer;
@@ -25,6 +26,7 @@ public class CustomerService {
     private final CustomerRepository repository;
     private final KafkaTemplate<String, MailDTO> kafkaRegistration;
     private final MongoTemplate mongoTemplate;
+    private final NotificationClient notificationClient;
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
     public Customer saveCustomer(Customer customer) {
@@ -73,6 +75,25 @@ public class CustomerService {
         customerDTO.setName(customer.getName());
 
         return customerDTO;
+    }
+
+    public void customerIdentify(Map<Long,String> productsWasOutMap) {
+
+        for (Map.Entry<Long, String> entry : productsWasOutMap.entrySet()) {
+            Customer customer = repository.findById(entry.getKey()).orElse(null);
+
+            Map<String, Object> data = Map.of(
+                    "Product", entry.getValue(),
+                    "Name", customer.getName()
+            );
+            MailDTO mailDTO;
+            mailDTO = MailDTO.builder()
+                    .data(data)
+                    .to(customer.getEmail())
+                    .build();
+            notificationClient.sendUpdateStorageEmail(mailDTO);
+
+        }
     }
 
     public void cleanCart(String id) {

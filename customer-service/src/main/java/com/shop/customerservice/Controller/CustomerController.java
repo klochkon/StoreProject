@@ -38,7 +38,7 @@ public class CustomerController {
 
     @GetMapping("find/customerDTO/{customerId}")
     public CustomerDTO findCustomerEmailAndNameById(@PathVariable Long customerId) {
-       return service.findCustomerEmailAndNameById(customerId);
+        return service.findCustomerEmailAndNameById(customerId);
     }
 
     @GetMapping("find/all")
@@ -47,5 +47,7 @@ public class CustomerController {
     }
 
     @PutMapping("clean/cart/{id}")
-    public void cleanCart(@PathVariable String id) {service.cleanCart(id);}
+    public void cleanCart(@PathVariable String id) {
+        service.cleanCart(id);
+    }
 }

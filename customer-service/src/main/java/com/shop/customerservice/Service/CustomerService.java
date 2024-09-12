@@ -2,7 +2,6 @@ package com.shop.customerservice.Service;
 
 import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.DTO.MailDTO;
-import com.shop.customerservice.DTO.ProductDuplicateDTO;
 import com.shop.customerservice.Model.Customer;
 import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;

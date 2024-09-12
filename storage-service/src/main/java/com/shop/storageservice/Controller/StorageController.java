@@ -2,11 +2,13 @@ package com.shop.storageservice.Controller;
 
 import com.shop.storageservice.DTO.OrderDuplicateDTO;
 import com.shop.storageservice.DTO.ProductDuplicateDTO;
+import com.shop.storageservice.DTO.ProductWithQuantityDTO;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,7 +18,7 @@ public class StorageController {
     private final StorageService service;
 
     @GetMapping("check")
-    public Boolean isInStorage(@RequestParam Long id,@RequestParam Integer requiredQuantity) {
+    public Boolean isInStorage(@RequestParam Long id, @RequestParam Integer requiredQuantity) {
         return service.isInStorage(id, requiredQuantity);
     }
 
@@ -28,7 +30,7 @@ public class StorageController {
 
     @PutMapping("save/{quantity}")
     public void updateProduct(@PathVariable Integer quantity,
-                            @RequestBody ProductDuplicateDTO productDuplicateDTO) {
+                              @RequestBody ProductDuplicateDTO productDuplicateDTO) {
         service.updateProduct(quantity, productDuplicateDTO);
     }
 
@@ -39,7 +41,9 @@ public class StorageController {
     }
 
     @DeleteMapping("delete/{id}")
-    public void deleteById(@PathVariable Long id) {service.deleteById(id);}
+    public void deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+    }
 
     @PostMapping("add")
     public void addById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
@@ -51,16 +55,21 @@ public class StorageController {
         service.deleteProductById(orderDuplicateDTO);
     }
 
-    @GetMapping("order/check")
+    @GetMapping("check/order")
     public Boolean isOrderInStorage(@RequestBody Map<ProductDuplicateDTO, Integer> cart) {
         return service.isOrderInStorage(cart);
     }
 
     @GetMapping("find/order/out")
     public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(
-            @RequestBody Map<ProductDuplicateDTO, Integer> cart) {
-        return service.findOutOfStorageProduct(cart);
+            @RequestBody Map<ProductDuplicateDTO, Integer> cart,
+            @RequestParam Long customerId) {
+        return service.findOutOfStorageProduct(cart, customerId);
     }
 
+    @GetMapping("find/all")
+    public List<ProductWithQuantityDTO> findAllStorageWithQuantity() {
+        return service.findAllStorageWithQuantity();
+    }
 
 }

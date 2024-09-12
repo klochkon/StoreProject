@@ -15,6 +15,4 @@ public class InventoryStatusDTO {
     private Map<ProductDuplicateDTO, Integer> outOfStorageProducts;
 
 
-
-
 }

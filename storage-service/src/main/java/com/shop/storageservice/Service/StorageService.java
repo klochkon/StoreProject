@@ -1,14 +1,12 @@
 package com.shop.storageservice.Service;
 
 import com.shop.storageservice.Client.ProductClient;
-import com.shop.storageservice.DTO.OrderDuplicateDTO;
-import com.shop.storageservice.DTO.ProductDuplicateDTO;
-import com.shop.storageservice.DTO.ProductWithQuantityDTO;
-import com.shop.storageservice.DTO.StorageDuplicateDTO;
+import com.shop.storageservice.DTO.*;
 import com.shop.storageservice.Model.Storage;
 import com.shop.storageservice.Repository.StorageRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -24,16 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 
+@Data
 @Service
 @RequiredArgsConstructor
 public class StorageService {
-
     private final KafkaTemplate<String, List<StorageDuplicateDTO>> kafkaProductVerification;
+
     private final StorageRepository repository;
     private final ProductClient productClient;
+    private Map<Long, Long> outMapWithId = new HashMap<>();
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @CachePut(value = "storage", key = "#addedId")
+    public void addProductById(ProductDuplicateDTO productDuplicateDTO, Integer quantityAdded) {
+        repository.addProductById(productDuplicateDTO.getId(), quantityAdded);
+        Map<Long, String> productsWasOutMap = new HashMap<>();
+        for (Map.Entry<Long, Long> entry : outMapWithId.entrySet()) {
+            if (entry.getKey().equals(productDuplicateDTO.getId())) {
+                productsWasOutMap.put(entry.getValue(), productDuplicateDTO.getName());
+            }
+        }
+
+    }
 
     @CachePut(value = "storage", key = "#productDuplicateDTO.id")
     public void saveProduct(Integer quantity, ProductDuplicateDTO productDuplicateDTO) {
@@ -56,20 +68,20 @@ public class StorageService {
     }
 
 
-
     public List<ProductWithQuantityDTO> findAllStorageWithQuantity() {
         List<Storage> allProducts = repository.findAll();
         List<StorageDuplicateDTO> storageList = new ArrayList<>();
-            for(Storage product : allProducts) {
-                StorageDuplicateDTO storageDuplicateDTO = new StorageDuplicateDTO();
-                storageDuplicateDTO = StorageDuplicateDTO.builder()
-                        .customerId(product.getProductId())
-                        .quantity(product.getQuantity())
-                        .build();
-            }
+        for (Storage product : allProducts) {
+            StorageDuplicateDTO storageDuplicateDTO;
+            storageDuplicateDTO = StorageDuplicateDTO.builder()
+                    .customerId(product.getProductId())
+                    .quantity(product.getQuantity())
+                    .build();
+            storageList.add(storageDuplicateDTO);
+        }
         return productClient.getAllProductWithQuantity(storageList);
 
-        }
+    }
 
     @CacheEvict(value = "storage", key = "#id")
     public void deleteById(Long id) {
@@ -78,9 +90,9 @@ public class StorageService {
 
     @Scheduled(cron = "0 0 7 * * ?")
     public void productVerification() {
-        List<Storage> allProducts= repository.findAll();
+        List<Storage> allProducts = repository.findAll();
         List<StorageDuplicateDTO> productsWithLack = new ArrayList<>();
-        for(Storage product : allProducts) {
+        for (Storage product : allProducts) {
             if (product.getQuantity() <= 10) {
                 StorageDuplicateDTO storageDuplicateDTO;
                 storageDuplicateDTO = StorageDuplicateDTO.builder()
@@ -104,11 +116,6 @@ public class StorageService {
         return product.getQuantity() >= requiredQuantity;
     }
 
-    @CachePut(value = "storage", key = "#addedId")
-    public void addProductById(Long addedId, Integer quantityAdded) {
-        repository.addProductById(addedId, quantityAdded);
-    }
-
     @KafkaListener(topics = "order-topic", groupId = "${spring.kafka.consumer-groups.order-group.group-id}")
     @CacheEvict(value = "storage", key = "#orderDuplicateDTO.id")
     public void deleteProductById(OrderDuplicateDTO orderDuplicateDTO) {
@@ -119,8 +126,8 @@ public class StorageService {
                     .setParameter("deletedQuantity", entry.getValue())
                     .setParameter("id", entry.getKey().getId())
                     .executeUpdate();
-        entityManager.flush();
-        entityManager.clear();
+            entityManager.flush();
+            entityManager.clear();
         }
     }
 
@@ -133,12 +140,13 @@ public class StorageService {
         return true;
     }
 
-    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(Map<ProductDuplicateDTO, Integer> cart) {
+    public Map<ProductDuplicateDTO, Integer> findOutOfStorageProduct(
+            Map<ProductDuplicateDTO, Integer> cart, Long customerId) {
         Map<ProductDuplicateDTO, Integer> outOfStorageProduct = new HashMap<>();
         for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
             if (!isInStorage(entry.getKey().getId(), entry.getValue())) {
-                Storage product = repository.findById(entry.getKey().getId()).orElse(null);
-                outOfStorageProduct.put(entry.getKey(), product.getQuantity());
+                outOfStorageProduct.put(entry.getKey(), entry.getValue());
+                outMapWithId.put(entry.getKey().getId(), customerId);
             }
         }
         return outOfStorageProduct;

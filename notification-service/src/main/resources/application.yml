@@ -14,7 +14,7 @@ spring:
       registration-group:
         group-id: registration-mail-group
       product-verification-group:
-       group-id: product-verification-group
+        group-id: product-verification-group
 
   mail:
     port: 587

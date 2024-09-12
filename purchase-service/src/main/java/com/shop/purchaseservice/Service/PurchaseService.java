@@ -22,6 +22,7 @@ public class PurchaseService {
     private final KafkaTemplate<String, OrderDuplicateDTO> kafkaAddOrder;
     private final KafkaTemplate<String, MailDTO> kafkaMail;
     private final CustomerClient customerClient;
+    private final KafkaTemplate<String, Map<Long, Map<ProductDuplicateDTO, Integer>>> kafkaMailOutOfStorage;
 
     @Transactional
     public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {
@@ -58,12 +59,15 @@ public class PurchaseService {
             kafkaMail.send("purchase-mail-topic", mailDTO);
             inventoryStatusDTO.setIsOrderInStorage(true);
         } else {
-            Map<ProductDuplicateDTO, Integer> outOfStorage = storageClient.findOutOfStorageProduct(orderDuplicateDTO.getCart());
+            Map<ProductDuplicateDTO, Integer> outOfStorage = storageClient.findOutOfStorageProduct(
+                    orderDuplicateDTO.getCart(), orderDuplicateDTO.getCustomerId());
             for (Map.Entry<ProductDuplicateDTO, Integer> entry : outOfStorage.entrySet()) {
                 Map<ProductDuplicateDTO, Integer> outOfStorageMap = new HashMap<>();
                 outOfStorageMap.put(entry.getKey(), entry.getValue());
                 inventoryStatusDTO.setOutOfStorageProducts(outOfStorageMap);
             }
+            Map<Long, Map<ProductDuplicateDTO, Integer>> mapForMailOutOfStorage = new HashMap<>();
+            kafkaMailOutOfStorage.send("mail-out-of-storage-topic", mapForMailOutOfStorage);
         }
         return inventoryStatusDTO;
     }

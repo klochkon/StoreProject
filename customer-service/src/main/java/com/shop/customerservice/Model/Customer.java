@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,6 +44,6 @@ public class Customer {
     private Boolean newsLetterSubscribe;
 
 
-    private Set<String> favouriteCategory;
+    private List<Order> orders;
     private Set<String> favouriteProduct;
 }

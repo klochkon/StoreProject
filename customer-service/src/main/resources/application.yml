@@ -6,7 +6,7 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     consumer-groups:
       order-group:
-        group-id: order-group
+        group-id: add-order-group
       new-product-group:
         group-id: new-product-group
     producer:

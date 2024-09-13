@@ -23,7 +23,6 @@ import java.util.Map;
 public class ProductService {
 
     private final ProductRepository repository;
-    private final KafkaTemplate<String, String> kafkaNewProduct;
     private final KafkaTemplate<String, MailDTO> kafkaVerification;
 
 
@@ -72,14 +71,12 @@ public class ProductService {
 
         data.put("MapOfLackProducts", LackMap);
         mailDTO.setData(data);
-        kafkaVerification.send("product-verification-topic", mailDTO);
+        kafkaVerification.send("mail-topic", mailDTO);
 
     }
 
     @CachePut(value = {"allProduct", "product"}, key = "#product.id")
     public Product createProduct(Product product) {
-//     todo when start project and make a lot of products comment it and end functionality
-        kafkaNewProduct.send("new-product-topic", product.getCategory());
         return repository.save(product);
     }
 

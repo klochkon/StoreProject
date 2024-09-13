@@ -9,7 +9,7 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     consumer-groups:
       order-group:
-        group-id: order-group
+        group-id: storage-after-purchase-reduce-group
 
   datasource:
     url: jdbc:postgresql://localhost:5432/storage

@@ -27,13 +27,15 @@ public class NotificationService {
     @Value("${subject.verification}")
     private String verificationSubject;
 
-//    todo
-    @Value("${admin.storage.email}")
+    @Value("${subject.updateStorage}")
+    private String updateStorageSubject;
+
+    @Value("${admins.storage-role.email}")
     private String storageAdminEmail;
 
 //    TODO HTML
 
-    @KafkaListener(topics = "purchase-mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
+    @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
     public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
@@ -52,7 +54,7 @@ public class NotificationService {
         sender.send(message);
     }
 
-    @KafkaListener(topics = "registration-mail-topic", groupId = "${spring.kafka.consumer-groups.registration-group.group-id}")
+    @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.registration-group.group-id}")
     public void sendRegistrationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
@@ -70,7 +72,7 @@ public class NotificationService {
         sender.send(message);
     }
 
-    @KafkaListener(topics = "kafka-verification-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
+    @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
     public void sendProductVerificationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
         MimeMessage message = sender.createMimeMessage();
@@ -97,8 +99,8 @@ public class NotificationService {
 
         String html = templateEngine.process("RegistrationMailTemplate", context);
 
-        helper.setTo(storageAdminEmail);
-        helper.setSubject(verificationSubject);
+        helper.setTo(mailDTO.getTo());
+        helper.setSubject(updateStorageSubject);
         helper.setText(html, true);
 
         sender.send(message);

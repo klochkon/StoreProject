@@ -32,6 +32,7 @@ subject:
   purchase: "Thank you for your purchase!"
   registration: "Thank you for your registration!"
   verification: "Lack of products in the storage!"
+  updateStorage: "Your item is back in stock! Place your order now"
 
 admins:
   storage-role:

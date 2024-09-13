@@ -27,11 +27,14 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class StorageService {
+
     private final KafkaTemplate<String, List<StorageDuplicateDTO>> kafkaProductVerification;
 
     private final StorageRepository repository;
+
     private final CustomerClient customerClient;
     private final ProductClient productClient;
+
     private Map<Long, Long> outMapWithId = new HashMap<>();
 
     @PersistenceContext

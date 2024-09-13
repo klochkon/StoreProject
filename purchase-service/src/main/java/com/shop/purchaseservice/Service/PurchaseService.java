@@ -56,7 +56,7 @@ public class PurchaseService {
                     .data(data)
                     .build();
 
-            kafkaMail.send("purchase-mail-topic", mailDTO);
+            kafkaMail.send("mail-topic", mailDTO);
             inventoryStatusDTO.setIsOrderInStorage(true);
         } else {
             Map<ProductDuplicateDTO, Integer> outOfStorage = storageClient.findOutOfStorageProduct(
@@ -66,8 +66,6 @@ public class PurchaseService {
                 outOfStorageMap.put(entry.getKey(), entry.getValue());
                 inventoryStatusDTO.setOutOfStorageProducts(outOfStorageMap);
             }
-            Map<Long, Map<ProductDuplicateDTO, Integer>> mapForMailOutOfStorage = new HashMap<>();
-            kafkaMailOutOfStorage.send("mail-out-of-storage-topic", mapForMailOutOfStorage);
         }
         return inventoryStatusDTO;
     }

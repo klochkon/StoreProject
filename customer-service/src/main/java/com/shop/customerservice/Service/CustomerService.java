@@ -25,8 +25,8 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final KafkaTemplate<String, MailDTO> kafkaRegistration;
-    private final MongoTemplate mongoTemplate;
     private final NotificationClient notificationClient;
+    private final MongoTemplate mongoTemplate;
 
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
     public Customer saveCustomer(Customer customer) {
@@ -42,7 +42,7 @@ public class CustomerService {
                 .data(data)
                 .build();
 
-        kafkaRegistration.send("registration-mail-topic", mailDTO);
+        kafkaRegistration.send("mail-topic", mailDTO);
         return repository.save(customer);
     }
 

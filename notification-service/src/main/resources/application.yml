@@ -2,12 +2,11 @@ server:
   port: 8082
 
 spring:
-
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     consumer-groups:
       purchase-group:
         group-id: purchase-mail-group

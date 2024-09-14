@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//todo elasticsearch
+
 @RequiredArgsConstructor
 @Service
 public class ProductService {
@@ -53,7 +55,7 @@ public class ProductService {
         return resultList;
     }
 
-    @KafkaListener(topics = "product-name-identifier-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
+    @KafkaListener(topics = "product-name-identifier-topic", groupId = "${spring.kafka.consumer-groups.product-name-identifier-group.group-id}")
     public void nameIdentifier(List<StorageDuplicateDTO> productsWithLack) {
         MailDTO mailDTO = new MailDTO();
         Map<String, Object> data = new HashMap<>();

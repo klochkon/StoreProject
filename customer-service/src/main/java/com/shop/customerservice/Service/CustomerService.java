@@ -28,6 +28,8 @@ public class CustomerService {
     private final NotificationClient notificationClient;
     private final MongoTemplate mongoTemplate;
 
+//    todo when sale on product which is in favourite customer`s products make an email about it
+
     @CachePut(value = {"customer", "allCustomer"}, key = "#customer.id")
     public Customer saveCustomer(Customer customer) {
 

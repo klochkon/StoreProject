@@ -22,7 +22,6 @@ public class PurchaseService {
     private final KafkaTemplate<String, OrderDuplicateDTO> kafkaAddOrder;
     private final KafkaTemplate<String, MailDTO> kafkaMail;
     private final CustomerClient customerClient;
-    private final KafkaTemplate<String, Map<Long, Map<ProductDuplicateDTO, Integer>>> kafkaMailOutOfStorage;
 
     @Transactional
     public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {

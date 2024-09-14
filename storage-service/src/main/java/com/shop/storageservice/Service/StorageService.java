@@ -40,6 +40,8 @@ public class StorageService {
     @PersistenceContext
     private EntityManager entityManager;
 
+//    todo security in all project
+
     @CachePut(value = "storage", key = "#productDuplicateDTO.id")
     public void addProductById(ProductDuplicateDTO productDuplicateDTO, Integer quantityAdded) {
         repository.addProductById(productDuplicateDTO.getId(), quantityAdded);

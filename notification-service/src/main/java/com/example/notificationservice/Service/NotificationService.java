@@ -35,76 +35,45 @@ public class NotificationService {
 
 //    TODO HTML
 
-    @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
-    public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
-
+    public void sendEmail(MailDTO mailDTO, String template, String subject) throws jakarta.mail.MessagingException {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         Context context = new Context();
         context.setVariables(mailDTO.getData());
 
-        String html = templateEngine.process("PurchaseMailTemplate", context);
+        String html = templateEngine.process(template, context);
 
 
         helper.setTo(mailDTO.getTo());
-        helper.setSubject(purchaseSubject);
+        helper.setSubject(subject);
         helper.setText(html, true);
 
         sender.send(message);
+    }
+
+    @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.purchase-group.group-id}")
+    public void sendPurchaseEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
+
+        sendEmail(mailDTO, "someTemplate", purchaseSubject);
     }
 
     @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.registration-group.group-id}")
     public void sendRegistrationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-        Context context = new Context();
-        context.setVariables(mailDTO.getData());
-
-        String html = templateEngine.process("RegistrationMailTemplate", context);
-
-        helper.setTo(mailDTO.getTo());
-        helper.setSubject(registrationSubject);
-        helper.setText(html, true);
-
-        sender.send(message);
+        sendEmail(mailDTO, "someTemplate", registrationSubject);
     }
 
     @KafkaListener(topics = "mail-topic", groupId = "${spring.kafka.consumer-groups.product-verification-group.group-id}")
     public void sendProductVerificationEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
 
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-        Context context = new Context();
-        context.setVariables(mailDTO.getData());
-
-        String html = templateEngine.process("RegistrationMailTemplate", context);
-
-        helper.setTo(storageAdminEmail);
-        helper.setSubject(verificationSubject);
-        helper.setText(html, true);
-
-        sender.send(message);
+        mailDTO.setTo(storageAdminEmail);
+        sendEmail(mailDTO, "someTemplate", verificationSubject);
     }
 
     public void sendUpdateStorageEmail(MailDTO mailDTO) throws jakarta.mail.MessagingException {
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        Context context = new Context();
-        context.setVariables(mailDTO.getData());
-
-        String html = templateEngine.process("RegistrationMailTemplate", context);
-
-        helper.setTo(mailDTO.getTo());
-        helper.setSubject(updateStorageSubject);
-        helper.setText(html, true);
-
-        sender.send(message);
-
+        sendEmail(mailDTO, "someTemplate", updateStorageSubject);
     }
 
 }

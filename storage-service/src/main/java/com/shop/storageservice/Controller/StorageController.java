@@ -46,8 +46,10 @@ public class StorageController {
     }
 
     @PostMapping("add")
-    public void addById(@RequestParam Integer quantityAdded, @RequestParam Long addedId) {
-        service.addProductById(addedId, quantityAdded);
+    public void addById(
+            @RequestBody ProductDuplicateDTO productDuplicateDTO,
+            @RequestParam Integer quantityAdded) {
+        service.addProductById(productDuplicateDTO, quantityAdded);
     }
 
     @DeleteMapping("delete")

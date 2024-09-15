@@ -1,3 +1,3 @@
-FROM openjdk:17-jdk
-WORKDIR /app
-COPY
+#FROM openjdk:17-jdk
+#WORKDIR /app
+#COPY

@@ -2,16 +2,14 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     consumer-groups:
       order-group:
-        group-id: order-group
-      new-product-group:
-        group-id: new-product-group
+        group-id: add-order-group
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-serializer: org.springframework.kafka.support.serializer.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 
   cache:
@@ -25,9 +23,9 @@ spring:
       port: 6379
 
     mongodb:
-      host: localhost
-      port: 27017
-      database: customer
+    
+      database: Customer
+      uri: mongodb://localhost:27017/customer
 
 url:
   notificationClient: "http://localhost:8082"

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "notification-service", url = "${url.notificationClient}")
 public interface NotificationClient {
+
     @PostMapping("api/v1/notification/send/storage/update")
     void sendUpdateStorageEmail(@RequestBody MailDTO mailDTO);
 }

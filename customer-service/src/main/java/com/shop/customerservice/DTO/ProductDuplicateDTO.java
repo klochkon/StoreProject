@@ -23,5 +23,5 @@ public class ProductDuplicateDTO {
     private String producer;
     private String category;
 
-    private Double feedBack;
+    private BigDecimal feedBack;
 }

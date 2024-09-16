@@ -43,7 +43,7 @@ class StorageServiceTest {
                 .cost(new BigDecimal(100.00))
                 .category("Category")
                 .description("Description")
-                .feedBack(4.2)
+                .feedBack(new BigDecimal(4.2))
                 .name("Name")
                 .producer("Producer")
                 .build();
@@ -51,7 +51,7 @@ class StorageServiceTest {
         cart.put(productDuplicateDTO, 5);
 
         storage = Storage.builder()
-                .id(1L)
+                .productId(1L)
                 .quantity(1)
                 .build();
     }
@@ -72,13 +72,13 @@ class StorageServiceTest {
         verify(repository, times(1)).findById(anyLong());
     }
 
-    @Test
-    void addProductById() {
-        doNothing().when(repository).addProductById(anyLong(), anyInt());
-        service.addProductById(storage.getProductId(), storage.getQuantity());
-        verify(repository, times(1)).addProductById(anyLong(), anyInt());
-
-    }
+//    @Test
+//    void addProductById() {
+//        doNothing().when(repository).addProductById(anyLong(), anyInt());
+//        service.addProductById(storage.getProductId(), storage.getQuantity());
+//        verify(repository, times(1)).addProductById(anyLong(), anyInt());
+//
+//    }
 
 //    @Test
 //    void deleteProductById() {

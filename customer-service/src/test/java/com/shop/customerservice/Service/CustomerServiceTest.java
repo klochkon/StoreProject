@@ -44,7 +44,6 @@ class CustomerServiceTest {
                 .phoneNumber("phoneNumber")
                 .nickName("nickName")
                 .dateOfBirth(dateOfBirth)
-                .favouriteCategory(favouriteCategory)
                 .favouriteProduct(favouriteProduct)
                 .build();
     }

@@ -21,7 +21,7 @@ public class ProductWithQuantityDTO {
     private String producer;
     private String category;
 
-    private Double feedBack;
+    private BigDecimal feedBack;
 
     private Integer quantity;
 }

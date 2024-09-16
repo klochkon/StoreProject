@@ -2,13 +2,15 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      key-deserializer: org.springframework.kafka.support.serializer.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.value.type: com.shop.customerservice.DTO.OrderDuplicateDTO
     consumer-groups:
       order-group:
         group-id: add-order-group
     producer:
-      key-serializer: org.springframework.kafka.support.serializer.StringSerializer
+      key-serializer:  org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 
@@ -23,9 +25,10 @@ spring:
       port: 6379
 
     mongodb:
-    
+      host: localhost
+      port: 27017
       database: Customer
-      uri: mongodb://localhost:27017/customer
+
 
 url:
   notificationClient: "http://localhost:8082"

@@ -5,7 +5,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.value.default.type: com.shop.customerservice.DTO.OrderDuplicateDTO
+        spring.json.value.type: com.shop.customerservice.DTO.OrderDuplicateDTO
     consumer-groups:
       order-group:
         group-id: add-order-group

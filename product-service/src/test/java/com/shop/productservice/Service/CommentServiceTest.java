@@ -44,7 +44,7 @@ public class CommentServiceTest {
                 .name("name")
                 .producer("producer")
                 .description("description")
-                .feedBack(1.1)
+                .feedBack(new BigDecimal(1.1))
                 .comment(comments)
                 .build();
 

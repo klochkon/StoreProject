@@ -44,7 +44,6 @@ class FavouriteProductServiceTest {
                 .surname("surname")
                 .sex("sex")
                 .dateOfBirth(dateOfBirth)
-                .favouriteCategory(favouriteCategory)
                 .favouriteProduct(favouriteProduct)
                 .build();
     }

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="analytics-service:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/analytics_service_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="analytics-service:jar">
+    <output-path>$PROJECT_DIR$/analytics-service/target</output-path>
     <root id="archive" name="analytics-service.jar">
       <element id="module-output" name="analytics-service" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/springframework/spring-tx/6.1.11/spring-tx-6.1.11.jar" path-in-jar="/" />

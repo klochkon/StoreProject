@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="customer-service:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/customer_service_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="customer-service:jar">
+    <output-path>$PROJECT_DIR$/customer-service/target</output-path>
     <root id="archive" name="customer-service.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/notification-service/src/main/resources/META-INF/MANIFEST.MF" />

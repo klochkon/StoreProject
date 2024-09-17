@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-deployment
+  name: kafka-deployment
   labels:
-    app: mongodb
-    microservice: customer-service
-
+    app: kafka
+    microservice: notification-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
-      microservice: customer-service
+      app: kafka
+      microservice: notification-service
   template:
     metadata:
-      name: mongo-pod
+      name: kafka-pod
       labels:
-        app: mongodb
-        microservice: customer-service
+        app: kafka
+        microservice: notification-service
     spec:
       containers:
         - name: Title

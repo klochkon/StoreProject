@@ -1,14 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-service
+  name: zookeeper-service
   labels:
-    app: kafka
+    app: zookeeper
     microservice: customer-service
-
 spec:
   selector:
-    app: kafka
+    app: zookeeper
     microservice: customer-service
   ports:
     - protocol: TCP

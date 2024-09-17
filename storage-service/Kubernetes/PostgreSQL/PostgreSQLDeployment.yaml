@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-deployment
+  name: postgresql-deployment
   labels:
-    app: mongodb
-    microservice: customer-service
-
+    app: postgresql
+    microservice: storage-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
-      microservice: customer-service
+      app: postgresql
+      microservice: storage-service
   template:
     metadata:
-      name: mongo-pod
+      name: postgresql-pod
       labels:
-        app: mongodb
-        microservice: customer-service
+        app: postgresql
+        microservice: storage-service
     spec:
       containers:
         - name: Title

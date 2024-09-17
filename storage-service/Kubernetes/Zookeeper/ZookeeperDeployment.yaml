@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-deployment
+  name: zookeeper-deployment
   labels:
-    app: mongodb
-    microservice: customer-service
-
+    app: zookeeper
+    microservice: storage-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
-      microservice: customer-service
+      app: zookeeper
+      microservice: storage-service
   template:
     metadata:
-      name: mongo-pod
+      name: zookeeper-pod
       labels:
-        app: mongodb
-        microservice: customer-service
+        app: zookeeper
+        microservice: storage-service
     spec:
       containers:
         - name: Title

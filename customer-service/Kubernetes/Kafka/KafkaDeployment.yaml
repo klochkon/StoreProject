@@ -1,19 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  app: Title
-  name: Title
+  name: kafka-deployment
   labels:
+    app: kafka
+    microservice: customer-service
+
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: Title
+      app: kafka
+      microservice: customer-service
   template:
     metadata:
-      name: Title
+      name: kafka-pod
       labels:
-        app: Title
+        app: kafka
+        microservice: customer-service
+
     spec:
       containers:
         - name: Title

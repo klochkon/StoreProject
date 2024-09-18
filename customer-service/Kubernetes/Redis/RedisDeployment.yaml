@@ -19,8 +19,10 @@ spec:
         microservice: customer-service
     spec:
       containers:
-        - name: Title
-          image: Image
+        - name: redis
+          image: redis:latest
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
       restartPolicy: Always
       

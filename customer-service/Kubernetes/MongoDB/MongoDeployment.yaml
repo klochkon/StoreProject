@@ -20,8 +20,10 @@ spec:
         microservice: customer-service
     spec:
       containers:
-        - name: Title
-          image: Image
+        - name: mongodb
+          image: mongo:latest
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
       restartPolicy: Always
       

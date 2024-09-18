@@ -21,8 +21,8 @@ spec:
 
     spec:
       containers:
-        - name: Title
-          image: Image
+        - name: kafka
+          image: confluentinc/cp-kafka:latest
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
       

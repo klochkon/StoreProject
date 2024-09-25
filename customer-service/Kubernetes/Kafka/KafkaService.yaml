@@ -12,7 +12,7 @@ spec:
     microservice: customer-service
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 9092
+      targetPort: 9092
   type: NodePort
   

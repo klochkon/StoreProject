@@ -24,5 +24,12 @@ spec:
         - name: kafka
           image: confluentinc/cp-kafka:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper-service:2181"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka-service:9092"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
       restartPolicy: Always
       

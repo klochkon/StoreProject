@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,46 +26,46 @@ public class PurchaseService {
     public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {
         InventoryStatusDTO inventoryStatusDTO = new InventoryStatusDTO();
         if (storageClient.isOrderInStorage(orderDuplicateDTO.getCart())) {
-
-            kafkaAddOrder.send("order-topic", orderDuplicateDTO);
-
-            customerClient.cleanCart(orderDuplicateDTO.getCustomerId());
-
-            Long customerId = orderDuplicateDTO.getCustomerId();
-            CustomerDTO customerDTO = customerClient.findCustomerEmailAndNameById(customerId);
-            List<String> listOfProducts = new ArrayList<>();
-
-            Map<String, Object> data = Map.of(
-                    "Cost", orderDuplicateDTO.getCost(),
-                    "ID", orderDuplicateDTO.getId(),
-                    "Products", listOfProducts,
-                    "Name", customerDTO.getName()
-            );
-
-            Map<ProductDuplicateDTO, Integer> cart = orderDuplicateDTO.getCart();
-
-            for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
-                listOfProducts.add(entry.getKey().getName());
-            }
-
-            MailDTO mailDTO;
-            mailDTO = MailDTO.builder()
-                    .to(customerDTO.getEmail())
-                    .data(data)
-                    .build();
-
-            kafkaMail.send("mail-topic", mailDTO);
+            purchaseProcess(orderDuplicateDTO);
             inventoryStatusDTO.setIsOrderInStorage(true);
+
         } else {
             Map<ProductDuplicateDTO, Integer> outOfStorage = storageClient.findOutOfStorageProduct(
                     orderDuplicateDTO.getCart(), orderDuplicateDTO.getCustomerId());
-            for (Map.Entry<ProductDuplicateDTO, Integer> entry : outOfStorage.entrySet()) {
-                Map<ProductDuplicateDTO, Integer> outOfStorageMap = new HashMap<>();
-                outOfStorageMap.put(entry.getKey(), entry.getValue());
-                inventoryStatusDTO.setOutOfStorageProducts(outOfStorageMap);
-            }
+            inventoryStatusDTO.setOutOfStorageProducts(outOfStorage);
         }
         return inventoryStatusDTO;
+    }
+
+    public void purchaseProcess(OrderDuplicateDTO orderDuplicateDTO) {
+        kafkaAddOrder.send("order-topic", orderDuplicateDTO);
+
+        customerClient.cleanCart(orderDuplicateDTO.getCustomerId());
+
+        Long customerId = orderDuplicateDTO.getCustomerId();
+        CustomerDTO customerDTO = customerClient.findCustomerEmailAndNameById(customerId);
+        List<String> listOfProducts = new ArrayList<>();
+
+        Map<String, Object> data = Map.of(
+                "Cost", orderDuplicateDTO.getCost(),
+                "ID", orderDuplicateDTO.getId(),
+                "Products", listOfProducts,
+                "Name", customerDTO.getName()
+        );
+
+        Map<ProductDuplicateDTO, Integer> cart = orderDuplicateDTO.getCart();
+
+        for (Map.Entry<ProductDuplicateDTO, Integer> entry : cart.entrySet()) {
+            listOfProducts.add(entry.getKey().getName());
+        }
+
+        MailDTO mailDTO;
+        mailDTO = MailDTO.builder()
+                .to(customerDTO.getEmail())
+                .data(data)
+                .build();
+
+        kafkaMail.send("mail-topic", mailDTO);
     }
 }
 

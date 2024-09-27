@@ -4,6 +4,7 @@ import com.shop.customerservice.Client.NotificationClient;
 import com.shop.customerservice.DTO.CustomerDTO;
 import com.shop.customerservice.DTO.MailDTO;
 import com.shop.customerservice.Model.Customer;
+import com.shop.customerservice.Model.Sale;
 import com.shop.customerservice.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ public class CustomerService {
     private final KafkaTemplate<String, MailDTO> kafkaRegistration;
     private final NotificationClient notificationClient;
     private final MongoTemplate mongoTemplate;
+    private final SaleService saleService;
 
 //    todo when sale on product which is in favourite customer`s products make an email about it
 
@@ -43,6 +46,15 @@ public class CustomerService {
                 .to(customer.getEmail())
                 .data(data)
                 .build();
+
+        Sale sale;
+        sale = Sale.builder()
+                .customerId(customer.getId())
+                .sale(new BigDecimal(0.1))
+                .build();
+
+
+        saleService.saveSale(sale);
 
         kafkaRegistration.send("mail-topic", mailDTO);
         return repository.save(customer);

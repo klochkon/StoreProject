@@ -47,8 +47,7 @@ public class OrderService {
         return repository.findById(id).orElse(null);
     }
 
-    @Cacheable(value = "allOrders" +
-            "")
+    @Cacheable(value = "allOrders")
     public List<Order> findAllByCustomerId(Long customerId) {
         return repository.findAllByCustomerId(customerId);
     }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +21,15 @@ import java.util.Set;
 @AllArgsConstructor
 @Document(collection = "customer")
 public class Customer {
+
     @Id
     private Long id;
 
     private String email;
 
     private String phoneNumber;
+
+    private BigDecimal sale;
 
     private String nickName;
 

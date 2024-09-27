@@ -21,6 +21,7 @@ public class FavouriteProductService {
         return customer.getFavouriteProduct();
     }
 
+//    todo
     @CachePut(value = "favoriteProduct", key = "#customerId")
     public void setFavouriteProductByCustomerId(Long customerId, Set<String> favouriteProducts) {
         Customer customer = repository.findById(customerId).orElse(null);

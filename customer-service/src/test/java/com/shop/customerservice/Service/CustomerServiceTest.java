@@ -29,24 +29,24 @@ class CustomerServiceTest {
     @Mock
     private CustomerRepository repository;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        LocalDate dateOfBirth = LocalDate.of(2020, 8, 1);
-        Set<String> favouriteCategory = Set.of("favouriteCategory");
-        Set<String> favouriteProduct = Set.of("favouriteProduct");
-        customer = Customer.builder()
-                .id(1L)
-                .name("name")
-                .surname("surname")
-                .email("email")
-                .sex("sex")
-                .phoneNumber("phoneNumber")
-                .nickName("nickName")
-                .dateOfBirth(dateOfBirth)
-                .favouriteProduct(favouriteProduct)
-                .build();
-    }
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//        LocalDate dateOfBirth = LocalDate.of(2020, 8, 1);
+//        Set<String> favouriteCategory = Set.of("favouriteCategory");
+//        Set<String> favouriteProduct = Set.of("favouriteProduct");
+//        customer = Customer.builder()
+//                .id(1L)
+//                .name("name")
+//                .surname("surname")
+//                .email("email")
+//                .sex("sex")
+//                .phoneNumber("phoneNumber")
+//                .nickName("nickName")
+//                .dateOfBirth(dateOfBirth)
+//                .favouriteProduct(favouriteProduct)
+//                .build();
+//    }
 
     @Test
     void saveCustomer() {

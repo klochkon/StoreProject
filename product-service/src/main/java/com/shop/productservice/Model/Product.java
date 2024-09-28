@@ -31,6 +31,8 @@ public class Product {
     private String name;
     private String producer;
     private String category;
+    @Column(unique = true)
+    private String slug;
 
     @Column(name = "feed_back", precision = 2, scale = 1)
     @DecimalMin(value = "1.0", message = "The minimum value is 1.0")

@@ -8,6 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +22,25 @@ public class PurchaseService {
     private final KafkaTemplate<String, OrderDuplicateDTO> kafkaAddOrder;
     private final KafkaTemplate<String, MailDTO> kafkaMail;
     private final CustomerClient customerClient;
+    private final KafkaTemplate<String, SaleDuplicateDTO> kafkaSale;
 
     @Transactional
     public InventoryStatusDTO purchase(OrderDuplicateDTO orderDuplicateDTO) {
         InventoryStatusDTO inventoryStatusDTO = new InventoryStatusDTO();
         if (storageClient.isOrderInStorage(orderDuplicateDTO.getCart())) {
-            purchaseProcess(orderDuplicateDTO);
+
+            kafkaAddOrder.send("order-topic", orderDuplicateDTO);
+            purchaseMailSend(orderDuplicateDTO);
+            customerClient.cleanCart(orderDuplicateDTO.getCustomerId());
+
+            if (orderDuplicateDTO.getCost().compareTo(new BigDecimal(500.0)) > 0) {
+                SaleDuplicateDTO saleDuplicateDTO;
+                saleDuplicateDTO = SaleDuplicateDTO.builder()
+                        .sale(new BigDecimal(0.05))
+                        .customerId(orderDuplicateDTO.getCustomerId())
+                        .build();
+                kafkaSale.send("sale-topic", saleDuplicateDTO);
+            }
             inventoryStatusDTO.setIsOrderInStorage(true);
 
         } else {
@@ -37,10 +51,7 @@ public class PurchaseService {
         return inventoryStatusDTO;
     }
 
-    public void purchaseProcess(OrderDuplicateDTO orderDuplicateDTO) {
-        kafkaAddOrder.send("order-topic", orderDuplicateDTO);
-
-        customerClient.cleanCart(orderDuplicateDTO.getCustomerId());
+    public void purchaseMailSend(OrderDuplicateDTO orderDuplicateDTO) {
 
         Long customerId = orderDuplicateDTO.getCustomerId();
         CustomerDTO customerDTO = customerClient.findCustomerEmailAndNameById(customerId);

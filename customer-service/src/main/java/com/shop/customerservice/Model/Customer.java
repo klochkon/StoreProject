@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,9 +44,9 @@ public class Customer {
 
     private Map<ProductDuplicateDTO, Integer> cart;
 
+//    todo use it
     private Boolean newsLetterSubscribe;
 
-
-    private List<Order> orders;
-    private Set<String> favouriteProduct;
+//    todo it`s wrong
+    private Set<ProductDuplicateDTO> favouriteProduct;
 }

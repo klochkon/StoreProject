@@ -1,11 +1,13 @@
 package com.shop.customerservice.Service;
 
+import com.shop.customerservice.DTO.SaleDuplicateDTO;
 import com.shop.customerservice.Model.Sale;
 import com.shop.customerservice.Repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,20 @@ public class SaleService {
 
     @CachePut(value = {"sale", "allSales"}, key = "#sale.id")
     public Sale saveSale(Sale sale) {
+        return repository.save(sale);
+    }
+
+    @CachePut(value = {"sale", "allSales"}, key = "#saleDuplicateDTO.id")
+    @KafkaListener(topics = "sale-topic", groupId = "${spring.kafka.consumer-groups.sale-group.group-id}")
+    public Sale saveSaleDTO(SaleDuplicateDTO saleDuplicateDTO) {
+
+        Sale sale;
+        sale = Sale.builder()
+                .id(saleDuplicateDTO.getId())
+                .sale(saleDuplicateDTO.getSale())
+                .customerId(saleDuplicateDTO.getCustomerId())
+                .build();
+
         return repository.save(sale);
     }
 

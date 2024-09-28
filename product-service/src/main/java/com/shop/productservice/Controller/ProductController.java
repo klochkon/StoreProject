@@ -27,6 +27,8 @@ public class ProductController {
         return service.createProduct(product);
     }
 
+
+
     @PutMapping("update")
     public Product updateProduct(@RequestBody Product product) {
         return service.updateProduct(product);
@@ -36,6 +38,12 @@ public class ProductController {
     public void deleteProductById(@PathVariable Long id) {
         service.deleteById(id);
     }
+
+    @GetMapping("share/{slug}")
+    public Product shareProduct(@PathVariable String slug) {
+        return service.findBySlug(slug);
+    }
+
 
     @GetMapping("get/{id}")
     public Product getProductById(@PathVariable Long id) {

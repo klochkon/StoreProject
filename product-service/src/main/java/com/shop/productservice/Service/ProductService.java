@@ -92,6 +92,11 @@ public class ProductService {
         return repository.findById(id).orElse(null);
     }
 
+    @Cacheable(value = "product", key = "#slug")
+    public Product findBySlug(String slug) {
+        return repository.findProductBySlug(slug);
+    }
+
     @CachePut(value = {"product", "allProduct"}, key = "#product.id")
     public Product updateProduct(Product product) {
         return repository.save(product);

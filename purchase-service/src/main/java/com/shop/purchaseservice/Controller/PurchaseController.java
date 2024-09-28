@@ -22,4 +22,9 @@ public class PurchaseController {
     public InventoryStatusDTO purchase(@RequestBody OrderDuplicateDTO orderDuplicateDTO) {
         return service.purchase(orderDuplicateDTO);
     }
+
+    @PostMapping("mail/send")
+    public void purchaseMailSend(@RequestBody OrderDuplicateDTO orderDuplicateDTO) {
+        service.purchaseMailSend(orderDuplicateDTO);
+    }
 }
